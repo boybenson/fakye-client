@@ -7,17 +7,17 @@ import {
   View,
 } from "react-native";
 import React, { useRef, useState } from "react";
-import { BookmarkIcon, Cog8ToothIcon } from "react-native-heroicons/outline";
-import AppText from "../../common/Core/AppText";
 import {
-  ChatBubbleLeftIcon,
-  HeartIcon,
-  ShareIcon,
+  ArrowUpTrayIcon,
+  BookmarkIcon,
+  Cog8ToothIcon,
 } from "react-native-heroicons/outline";
+import AppText from "../../common/Core/AppText";
+import { ChatBubbleLeftIcon, HeartIcon } from "react-native-heroicons/outline";
 import { posts } from "../../data";
 import ImagesGrid from "./ImagesGrid";
 import Sheet from "../../common/sheet";
-import BottomSheet, { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { BottomSheetModal } from "@gorhom/bottom-sheet";
 
 const images = [
   require("../../../assets/images/shoe.jpeg"),
@@ -118,7 +118,7 @@ const Home = () => {
                           </View>
                         </TouchableOpacity>
                         <TouchableOpacity>
-                          <ShareIcon color={"#6B7280"} />
+                          <ArrowUpTrayIcon color={"#6B7280"} />
                         </TouchableOpacity>
                       </View>
                     </View>
