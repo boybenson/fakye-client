@@ -1,12 +1,8 @@
 import { NavigationContainer } from "@react-navigation/native";
-import AuthStack from "./src/layouts/authlayout";
+import RootStack from "./src/navigation/root";
 
 const App = () => {
-  return (
-    <NavigationContainer>
-      <AuthStack />
-    </NavigationContainer>
-  );
+  return <RootStack />;
 };
 
 export default App;

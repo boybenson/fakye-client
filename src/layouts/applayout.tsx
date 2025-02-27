@@ -1,0 +1,25 @@
+import React from "react";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import SignIn from "../screens/signIn";
+import { appScreens, authScreens } from "../constants";
+import { BottomTabs } from "../navigation/tab";
+
+export type AppStackParamList = {
+  MainApp: undefined;
+};
+
+const Stack = createNativeStackNavigator<AppStackParamList>();
+
+const AppStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{
+        headerShown: false,
+      }}
+    >
+      <Stack.Screen name={appScreens.MainApp} component={BottomTabs} />
+    </Stack.Navigator>
+  );
+};
+
+export default AppStack;

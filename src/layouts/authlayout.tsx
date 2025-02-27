@@ -20,9 +20,9 @@ const AuthStack = () => {
         headerShown: false,
       }}
     >
-      <Stack.Screen name={authScreens.Otp} component={Otp} />
       <Stack.Screen name={authScreens.SignIn} component={SignIn} />
       <Stack.Screen name={authScreens.SignUp} component={SignUp} />
+      <Stack.Screen name={authScreens.Otp} component={Otp} />
     </Stack.Navigator>
   );
 };

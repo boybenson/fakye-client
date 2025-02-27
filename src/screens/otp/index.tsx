@@ -3,8 +3,13 @@ import { SafeAreaView, TextInput, TouchableOpacity, View } from "react-native";
 import AuthHeader from "../../common/authHeader";
 import { XMarkIcon } from "react-native-heroicons/solid";
 import AppText from "../../common/Core/AppText";
+import { NavigationProp, useNavigation } from "@react-navigation/native";
+import OtpBox from "../../common/Core/OtpBox";
+import { RootStackParamList } from "../../navigation/root";
 
 const Otp = () => {
+  const rootNavigation = useNavigation<NavigationProp<RootStackParamList>>();
+
   return (
     <SafeAreaView className="bg-white h-full">
       <View className="w-[98%] mx-auto h-full justify-between">
@@ -12,7 +17,7 @@ const Otp = () => {
           <AuthHeader
             title="Enter Code"
             icon={
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => rootNavigation.goBack()}>
                 <XMarkIcon size={30} color={"#1A0E00"} />
               </TouchableOpacity>
             }
@@ -32,19 +37,22 @@ const Otp = () => {
 
           <View className="p-2">
             <View className="mt-4">
-              <AppText text="Phone Number" />
-              <TextInput
-                keyboardType="decimal-pad"
-                maxLength={10}
-                returnKeyType="done"
-                className="p-4 w-full border border-main_gray/50 rounded-md mt-1.5"
-                placeholder="0546949655"
-              />
+              <View className="flex flex-row justify-center">
+                <OtpBox />
+              </View>
             </View>
           </View>
 
           <View className="mt-3 p-2">
-            <TouchableOpacity className="bg-main_green p-3 rounded-xl">
+            <TouchableOpacity
+              onPress={() =>
+                rootNavigation.reset({
+                  index: 0,
+                  routes: [{ name: "App" }],
+                })
+              }
+              className="bg-main_green p-3 rounded-xl"
+            >
               <AppText
                 text="Verify"
                 style="text-center text-white font-semibold text-base"

@@ -19,18 +19,15 @@ const SignIn = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
 
+  const handleSubmit = () => {
+    navigation.navigate("Otp");
+  };
+
   return (
     <SafeAreaView className="bg-white h-full">
       <View className="w-[98%] mx-auto h-full justify-between">
         <View>
-          <AuthHeader
-            title="Sign in to your account"
-            icon={
-              <TouchableOpacity>
-                <ChevronLeftIcon size={30} color={"#1A0E00"} />
-              </TouchableOpacity>
-            }
-          />
+          <AuthHeader title="Sign in to your account" icon={<View />} />
           <View className="mt-5 p-2">
             <AppText
               style="text-main_black text-xl font-bold"
@@ -56,7 +53,10 @@ const SignIn = () => {
           </View>
 
           <View className="mt-6 p-2">
-            <TouchableOpacity className="bg-main_green p-3 rounded-xl">
+            <TouchableOpacity
+              onPress={() => handleSubmit()}
+              className="bg-main_green p-3 rounded-xl"
+            >
               <AppText
                 text="Sign In"
                 style="text-center text-white font-semibold text-base"
