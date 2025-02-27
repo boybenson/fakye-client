@@ -8,8 +8,11 @@ import {
 } from "react-native";
 import AuthHeader from "../../common/authHeader";
 import { ChevronLeftIcon } from "react-native-heroicons/solid";
+import AppText from "../../common/Core/AppText";
+import { useNavigation } from "@react-navigation/native";
 
 const SignUp = () => {
+  const navigation = useNavigation();
   return (
     <SafeAreaView className="bg-white h-full">
       <View className="w-[98%] mx-auto h-full justify-between">
@@ -17,23 +20,25 @@ const SignUp = () => {
           <AuthHeader
             title="Create Account"
             icon={
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.goBack()}>
                 <ChevronLeftIcon size={30} color={"#1A0E00"} />
               </TouchableOpacity>
             }
           />
           <View className="mt-5 p-2">
-            <Text className="text-main_black text-xl font-bold">
-              Let’s get started
-            </Text>
-            <Text className="text-main_gray font-normal text-sm leading-6">
-              Hey there! sign up to start using Fakye
-            </Text>
+            <AppText
+              style="text-main_black text-xl font-bold"
+              text="Let’s get started"
+            />
+            <AppText
+              style="text-main_gray font-normal text-sm leading-6"
+              text="Hey there! sign up to start using Fakye"
+            />
           </View>
 
           <View className="p-2">
             <View>
-              <Text>Full Name</Text>
+              <AppText text="Full Name" />
               <TextInput
                 returnKeyType="next"
                 className="p-4 w-full border border-main_gray/50 rounded-md mt-1.5"
@@ -41,7 +46,7 @@ const SignUp = () => {
               />
             </View>
             <View className="mt-6">
-              <Text>Phone Number</Text>
+              <AppText text="Phone Number" />
               <TextInput
                 keyboardType="decimal-pad"
                 maxLength={10}
@@ -66,9 +71,10 @@ const SignUp = () => {
 
         <View className="p-2">
           <TouchableOpacity className="bg-main_green p-3 rounded-xl">
-            <Text className="text-center text-white font-semibold text-base">
-              Create Account
-            </Text>
+            <AppText
+              text="Create Account"
+              style="text-center text-white font-semibold text-base"
+            />
           </TouchableOpacity>
         </View>
       </View>
