@@ -15,7 +15,7 @@ const SignUp = () => {
   const navigation = useNavigation();
   return (
     <SafeAreaView className="bg-white h-full">
-      <View className="w-[98%] mx-auto h-full justify-between">
+      <View className="w-[96%] mx-auto h-full justify-between">
         <View>
           <AuthHeader
             title="Create Account"

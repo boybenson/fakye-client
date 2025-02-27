@@ -25,7 +25,7 @@ const SignIn = () => {
 
   return (
     <SafeAreaView className="bg-white h-full">
-      <View className="w-[98%] mx-auto h-full justify-between">
+      <View className="w-[96%] mx-auto h-full justify-between">
         <View>
           <AuthHeader title="Sign in to your account" icon={<View />} />
           <View className="mt-5 p-2">
