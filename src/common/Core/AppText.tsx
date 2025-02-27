@@ -7,11 +7,7 @@ type Iprops = {
 };
 
 const AppText = ({ text, style }: Iprops) => {
-  return (
-    <>
-      <Text className={style}>{text}</Text>
-    </>
-  );
+  return <Text className={style}>{text}</Text>;
 };
 
 export default AppText;
