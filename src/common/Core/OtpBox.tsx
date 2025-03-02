@@ -2,7 +2,7 @@ import { TextInput, View, TouchableOpacity, Platform } from "react-native";
 import React, { useState, useRef, useEffect } from "react";
 import * as Clipboard from "expo-clipboard";
 
-const OtpBox = ({ onComplete }: { onComplete: (otp: string) => void }) => {
+const OtpBox = ({ onComplete }: any) => {
   const inputRefs = useRef<Array<TextInput | null>>([]);
   const [otp, setOtp] = useState(["", "", "", ""]);
   const lastPastedText = useRef<string>("");
@@ -14,21 +14,18 @@ const OtpBox = ({ onComplete }: { onComplete: (otp: string) => void }) => {
     const match = text.match(/\d{4}/);
     if (match) {
       const otpArray = match[0].split("");
-      setOtp(otpArray);
-
-      // Move focus to the last input box
-      inputRefs.current[3]?.focus();
+      setOtp([...otpArray]);
     }
   };
 
   const handleChangeText = (text: string, index: number) => {
-    const numericText = text.replace(/[^0-9]/g, "");
-    if (numericText.length > 1) {
-      handleSMSAutoFill(numericText);
+    if (text.length > 1) {
+      handleSMSAutoFill(text);
       return;
     }
 
     const newOtp = [...otp];
+    const numericText = text.replace(/[^0-9]/g, "");
     newOtp[index] = numericText;
     setOtp(newOtp);
 
@@ -37,7 +34,7 @@ const OtpBox = ({ onComplete }: { onComplete: (otp: string) => void }) => {
     }
   };
 
-  const handlePaste = async () => {
+  const handlePaste = async (index: number) => {
     try {
       const text = await Clipboard.getStringAsync();
       handleSMSAutoFill(text);
@@ -61,6 +58,18 @@ const OtpBox = ({ onComplete }: { onComplete: (otp: string) => void }) => {
     }
   };
 
+  const handleBoxTap = (index: number) => {
+    inputRefs.current[index]?.focus();
+  };
+
+  useEffect(() => {
+    otp.forEach((value, index) => {
+      if (inputRefs.current[index]) {
+        inputRefs.current[index]?.setNativeProps({ text: value });
+      }
+    });
+  }, [otp]);
+
   useEffect(() => {
     onComplete(otp.join(""));
   }, [otp]);
@@ -71,19 +80,19 @@ const OtpBox = ({ onComplete }: { onComplete: (otp: string) => void }) => {
         <TouchableOpacity
           key={idx}
           activeOpacity={0.7}
-          onPress={() => inputRefs.current[idx]?.focus()}
-          onLongPress={handlePaste}
+          onPress={() => handleBoxTap(idx)}
+          onLongPress={() => handlePaste(idx)}
         >
           <TextInput
             ref={(el) => (inputRefs.current[idx] = el)}
-            maxLength={1} // Ensuring only 1 digit per input
+            maxLength={idx === 0 ? 4 : 1} // Allow first input to receive full OTP
             keyboardType="number-pad"
             returnKeyType="next"
-            value={digit} // Using `value` instead of `defaultValue`
+            defaultValue={digit}
             onChangeText={(text) => handleChangeText(text, idx)}
             onKeyPress={(e) => handleKeyPress(e, idx)}
             className={`border ${
-              digit ? "border-main_green" : "border-main_gray/50"
+              digit ? "border-blue-500" : "border-main_gray/50"
             } rounded-md mt-1.5 h-12 w-12 font-bold text-lg text-center`}
             textContentType={Platform.OS === "ios" ? "oneTimeCode" : "none"}
             autoComplete={Platform.OS === "android" ? "sms-otp" : "off"}

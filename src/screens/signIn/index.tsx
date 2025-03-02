@@ -62,6 +62,7 @@ const SignIn = () => {
       },
     });
   };
+
   return (
     <SafeAreaView className="bg-white h-full">
       <View className="w-[96%] mx-auto h-full justify-between">
