@@ -1,6 +1,5 @@
-import { Text, TouchableOpacity, View } from "react-native";
+import { Text, View } from "react-native";
 import React from "react";
-import { ChevronLeftIcon } from "react-native-heroicons/solid";
 
 type Iprops = {
   icon?: any;

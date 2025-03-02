@@ -7,17 +7,14 @@ import {
   View,
 } from "react-native";
 import React, { useRef, useState } from "react";
-import {
-  ArrowUpTrayIcon,
-  BookmarkIcon,
-  Cog8ToothIcon,
-} from "react-native-heroicons/outline";
+import { ArrowUpTrayIcon, BookmarkIcon } from "react-native-heroicons/outline";
 import AppText from "../../common/Core/AppText";
 import { ChatBubbleLeftIcon, HeartIcon } from "react-native-heroicons/outline";
 import { posts } from "../../data";
 import ImagesGrid from "./ImagesGrid";
 import Sheet from "../../common/sheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import AppHeader from "../../common/appHeader";
 
 const images = [
   require("../../../assets/images/shoe.jpeg"),
@@ -26,7 +23,7 @@ const images = [
   require("../../../assets/images/hoodie.jpeg"),
 ];
 
-const Home = () => {
+const Home = ({ navigation }: any) => {
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -46,19 +43,7 @@ const Home = () => {
     <View>
       <View>
         <SafeAreaView className="bg-white">
-          <View className="bg-white w-[96%] mx-auto flex-row items-center justify-between py-2">
-            <Image
-              source={require("../../../assets/images/pp.jpeg")}
-              style={{ width: 32, height: 32, borderRadius: 100 }}
-            />
-            <AppText
-              style="text-main_black text-lg font-semibold text-main_green"
-              text="Fakye"
-            />
-            <TouchableOpacity>
-              <Cog8ToothIcon size={30} color={"#1A0E00"} />
-            </TouchableOpacity>
-          </View>
+          <AppHeader />
         </SafeAreaView>
         <View>
           <View className="w-[96%] mx-auto">

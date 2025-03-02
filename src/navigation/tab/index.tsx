@@ -6,10 +6,10 @@ import {
   HomeIcon,
   MagnifyingGlassIcon,
   PencilSquareIcon,
-  PlusCircleIcon,
   UserIcon,
 } from "react-native-heroicons/solid";
 import Home from "../../screens/home";
+import Search from "../../screens/search";
 
 const Tab = createBottomTabNavigator();
 
@@ -68,7 +68,7 @@ const BottomTabs = () => {
       })}
     >
       <Tab.Screen name={tabScreens.HomeTab} component={Home} />
-      <Tab.Screen name={tabScreens.SearchTab} component={HomeScreen} />
+      <Tab.Screen name={tabScreens.SearchTab} component={Search} />
       <Tab.Screen name={tabScreens.PostItemTab} component={HomeScreen} />
       <Tab.Screen name={tabScreens.ChatsTab} component={HomeScreen} />
       <Tab.Screen name={tabScreens.ProfileTab} component={HomeScreen} />

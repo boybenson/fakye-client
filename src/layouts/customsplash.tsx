@@ -1,11 +1,10 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { appScreens } from "../constants";
-import SideDrawer from "../navigation/drawer";
+import { BottomTabs } from "../navigation/tab";
 
 export type AppStackParamList = {
   MainApp: undefined;
-  SideDrawer: undefined;
 };
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
@@ -17,7 +16,7 @@ const AppStack = () => {
         headerShown: false,
       }}
     >
-      <Stack.Screen name={appScreens.SideDrawer} component={SideDrawer} />
+      <Stack.Screen name={appScreens.MainApp} component={BottomTabs} />
     </Stack.Navigator>
   );
 };
