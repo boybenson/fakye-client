@@ -7,7 +7,11 @@ import {
   View,
 } from "react-native";
 import React, { useRef, useState } from "react";
-import { ArrowUpTrayIcon, BookmarkIcon } from "react-native-heroicons/outline";
+import {
+  ArrowUpTrayIcon,
+  BookmarkIcon,
+  MapPinIcon,
+} from "react-native-heroicons/outline";
 import AppText from "../../common/Core/AppText";
 import { ChatBubbleLeftIcon, HeartIcon } from "react-native-heroicons/outline";
 import { posts } from "../../data";
@@ -75,6 +79,21 @@ const Home = ({ navigation }: any) => {
                         text="The description of the item you want to dash for free goes here and can be long to occupy three lines"
                         style="text-xs text-main_gray"
                       />
+                      <View className="my-2 flex flex-row items-center space-x-3">
+                        <View>
+                          <AppText
+                            text="Giveaway"
+                            style="border text-main_green border-main_green py-0.5 px-2 rounded-xl"
+                          />
+                        </View>
+                        <View className="flex flex-row items-center">
+                          <MapPinIcon size={20} color={"#6B7280"} />
+                          <AppText
+                            text="Legon"
+                            style="text-main_gray p-1 rounded-xl"
+                          />
+                        </View>
+                      </View>
                       <View className="mt-2 border border-main_gray/30 rounded-xl overflow-hidden">
                         <ImagesGrid images={images} />
                       </View>

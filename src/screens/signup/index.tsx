@@ -148,6 +148,9 @@ const SignUp = () => {
                       textInputStyle={{
                         fontSize: 16,
                       }}
+                      textInputProps={{
+                        returnKeyType: "done",
+                      }}
                     />
                   )}
                   name="phone"

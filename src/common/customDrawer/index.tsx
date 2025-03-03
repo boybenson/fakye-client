@@ -1,7 +1,6 @@
 import React from "react";
-import { View, Text, TouchableOpacity, Image } from "react-native";
+import { View, TouchableOpacity, Image } from "react-native";
 import { DrawerContentScrollView } from "@react-navigation/drawer";
-import { useNavigation } from "@react-navigation/native";
 import useAuthStore from "../../zustand/auth-store";
 import AppText from "../Core/AppText";
 import { drawerLinks } from "../../constants";
@@ -10,7 +9,7 @@ import useLogout from "../../hooks/use-logout";
 
 const CustomDrawerContent = (props: any) => {
   const user = useAuthStore((state) => state.user);
-  const navigation: any = props?.navigation;
+  // const navigation: any = props?.navigation;
 
   const { logout } = useLogout();
 
