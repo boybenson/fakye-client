@@ -10,6 +10,7 @@ import React, { useRef, useState } from "react";
 import {
   ArrowUpTrayIcon,
   BookmarkIcon,
+  EllipsisHorizontalIcon,
   MapPinIcon,
 } from "react-native-heroicons/outline";
 import AppText from "../../common/Core/AppText";
@@ -68,7 +69,9 @@ const Home = ({ navigation }: any) => {
                         />
                         <AppText text="Humble" style="text-sm ml-2" />
                       </View>
-                      <AppText text="5min ago" style="text-xs text-main_gray" />
+                      <TouchableOpacity>
+                        <EllipsisHorizontalIcon size={30} />
+                      </TouchableOpacity>
                     </View>
                     <View className="mt-2">
                       <AppText
@@ -100,30 +103,34 @@ const Home = ({ navigation }: any) => {
                     </View>
                     <View>
                       <View className="flex-row items-center justify-between mt-3">
-                        <TouchableOpacity
-                          onPress={() => handleOpenComments()}
-                          className="flex flex-row items-center space-x-1"
-                        >
-                          <ChatBubbleLeftIcon color={"#6B7280"} />
-                          <View>
-                            <AppText text="120" />
-                          </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity className="flex-row items-center space-x-1">
-                          <HeartIcon color={"#6B7280"} />
-                          <View>
-                            <AppText text="100" />
-                          </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity className="flex-row items-center space-x-1">
-                          <BookmarkIcon color={"#6B7280"} />
-                          <View>
-                            <AppText text="120" />
-                          </View>
-                        </TouchableOpacity>
-                        <TouchableOpacity>
-                          <ArrowUpTrayIcon color={"#6B7280"} />
-                        </TouchableOpacity>
+                        <View className="flex flex-row items-center space-x-4">
+                          <TouchableOpacity
+                            onPress={() => handleOpenComments()}
+                            className="flex flex-row items-center space-x-1"
+                          >
+                            <ChatBubbleLeftIcon color={"#6B7280"} />
+                            <View>
+                              <AppText text="120" />
+                            </View>
+                          </TouchableOpacity>
+                          <TouchableOpacity className="flex-row items-center space-x-1">
+                            <HeartIcon color={"#6B7280"} />
+                            <View>
+                              <AppText text="100" />
+                            </View>
+                          </TouchableOpacity>
+                          <TouchableOpacity className="flex-row items-center space-x-1">
+                            <BookmarkIcon color={"#6B7280"} />
+                          </TouchableOpacity>
+                        </View>
+                        <View>
+                          <TouchableOpacity className="bg-main_green p-3 rounded-lg">
+                            <AppText
+                              text="I am Interested"
+                              style="text-white font-semibold"
+                            />
+                          </TouchableOpacity>
+                        </View>
                       </View>
                     </View>
                   </View>
