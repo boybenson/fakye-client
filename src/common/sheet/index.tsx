@@ -1,5 +1,4 @@
 import React, { useCallback, useMemo } from "react";
-import { Text } from "react-native";
 import {
   BottomSheetBackdrop,
   BottomSheetModal,
@@ -8,10 +7,12 @@ import {
 
 type Iprops = {
   bottomSheetRef?: any;
+  children?: any;
+  snapPoints?: any;
 };
 
-const Sheet = ({ bottomSheetRef }: Iprops) => {
-  const snapPoints = useMemo(() => ["45%", "75%"], []);
+const Sheet = ({ bottomSheetRef, children, snapPoints }: Iprops) => {
+  const breakPoints = useMemo(() => snapPoints, []);
 
   const renderBackdrop = useCallback(
     (props: any) => (
@@ -34,12 +35,10 @@ const Sheet = ({ bottomSheetRef }: Iprops) => {
       backdropComponent={renderBackdrop}
       index={1}
       stackBehavior="push"
-      snapPoints={snapPoints}
+      snapPoints={breakPoints}
       handleComponent={null}
     >
-      <BottomSheetView>
-        <Text>Awesome 🎉</Text>
-      </BottomSheetView>
+      <BottomSheetView style={{ flex: 1 }}>{children}</BottomSheetView>
     </BottomSheetModal>
   );
 };

@@ -1,3 +1,5 @@
+import "react-native-reanimated";
+import "react-native-gesture-handler";
 import "./gesture-handler";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import RootStack from "./src/navigation/root";
