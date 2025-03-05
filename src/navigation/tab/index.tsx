@@ -11,6 +11,7 @@ import {
 import Home from "../../screens/home";
 import Search from "../../screens/search";
 import NewPost from "../../screens/newPost";
+import { UserGroupIcon } from "react-native-heroicons/outline";
 
 const Tab = createBottomTabNavigator();
 
@@ -51,11 +52,11 @@ const BottomTabs = () => {
               <ChatBubbleLeftRightIcon color={"#6B7280"} />
             );
           }
-          if (route.name === tabScreens.ProfileTab) {
+          if (route.name === tabScreens.FoundationTab) {
             return focused ? (
-              <UserIcon color={"#08A045"} />
+              <UserGroupIcon color={"#08A045"} />
             ) : (
-              <UserIcon color={"#6B7280"} />
+              <UserGroupIcon color={"#6B7280"} />
             );
           }
         },
@@ -71,8 +72,8 @@ const BottomTabs = () => {
       <Tab.Screen name={tabScreens.HomeTab} component={Home} />
       <Tab.Screen name={tabScreens.SearchTab} component={Search} />
       <Tab.Screen name={tabScreens.PostItemTab} component={NewPost} />
+      <Tab.Screen name={tabScreens.FoundationTab} component={HomeScreen} />
       <Tab.Screen name={tabScreens.ChatsTab} component={HomeScreen} />
-      <Tab.Screen name={tabScreens.ProfileTab} component={HomeScreen} />
     </Tab.Navigator>
   );
 };

@@ -12,7 +12,7 @@ const ImagesGrid = ({ images }: any) => {
   };
 
   const imageViewerData = images.map((img: any) => ({
-    uri: Image.resolveAssetSource(img).uri,
+    uri: img,
   }));
 
   const renderGrid = () => {
@@ -23,7 +23,7 @@ const ImagesGrid = ({ images }: any) => {
           className="w-full h-64 overflow-hidden"
         >
           <Image
-            source={images[0]}
+            source={{ uri: images[0] }}
             className="w-full h-full"
             resizeMode="cover"
           />
@@ -38,7 +38,11 @@ const ImagesGrid = ({ images }: any) => {
               onPress={() => onImagePress(index)}
               className="w-[48%] overflow-hidden"
             >
-              <Image source={img} className="w-full h-40" resizeMode="cover" />
+              <Image
+                source={{ uri: img }}
+                className="w-full h-40"
+                resizeMode="cover"
+              />
             </TouchableOpacity>
           ))}
         </View>
@@ -52,7 +56,7 @@ const ImagesGrid = ({ images }: any) => {
               className="w-full h-40 overflow-hidden"
             >
               <Image
-                source={images[0]}
+                source={{ uri: images[0] }}
                 className="w-full h-full"
                 resizeMode="cover"
               />
@@ -62,7 +66,7 @@ const ImagesGrid = ({ images }: any) => {
               className="w-full h-40 overflow-hidden"
             >
               <Image
-                source={images[1]}
+                source={{ uri: images[1] }}
                 className="w-full h-full"
                 resizeMode="cover"
               />
@@ -73,7 +77,7 @@ const ImagesGrid = ({ images }: any) => {
             className="w-1/2 h-80 ml-1 overflow-hidden"
           >
             <Image
-              source={images[2]}
+              source={{ uri: images[2] }}
               className="w-full h-full"
               resizeMode="cover"
             />
@@ -89,7 +93,11 @@ const ImagesGrid = ({ images }: any) => {
               onPress={() => onImagePress(index)}
               className="w-[48%] overflow-hidden"
             >
-              <Image source={img} className="w-full h-40" resizeMode="cover" />
+              <Image
+                source={{ uri: img }}
+                className="w-full h-40"
+                resizeMode="cover"
+              />
             </TouchableOpacity>
           ))}
         </View>

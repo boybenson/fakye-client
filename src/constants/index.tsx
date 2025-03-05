@@ -29,8 +29,8 @@ export const appScreens: Record<
   keyof AppStackParamList,
   keyof AppStackParamList
 > = {
-  MainApp: "MainApp",
   SideDrawer: "SideDrawer",
+  NewInterest: "NewInterest",
 };
 
 export const rootScreens: Record<
@@ -47,7 +47,7 @@ export const tabScreens = {
   HomeTab: "HomeTab",
   SearchTab: "SearchTab",
   PostItemTab: "PostItemTab",
-  ProfileTab: "ProfileTab",
+  FoundationTab: "FoundationTab",
   ChatsTab: "ChatsTab",
 };
 

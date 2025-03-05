@@ -14,6 +14,7 @@ export type Scalars = {
   Boolean: { input: boolean; output: boolean; }
   Int: { input: number; output: number; }
   Float: { input: number; output: number; }
+  Date: { input: any; output: any; }
 };
 
 export type AuthUser = {
@@ -22,11 +23,30 @@ export type AuthUser = {
   user?: Maybe<User>;
 };
 
+export type CreatePostContent = {
+  description?: InputMaybe<Scalars['String']['input']>;
+  media?: InputMaybe<Array<InputMaybe<Scalars['String']['input']>>>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  type?: InputMaybe<PostType>;
+  userId?: InputMaybe<Scalars['ID']['input']>;
+};
+
+export type GetPostsFilter = {
+  createdAt?: InputMaybe<Scalars['Date']['input']>;
+  postType?: InputMaybe<PostType>;
+};
+
 export type Mutation = {
   __typename?: 'Mutation';
+  createPost?: Maybe<Scalars['Boolean']['output']>;
   signIn?: Maybe<AuthUser>;
   signUp?: Maybe<Scalars['Boolean']['output']>;
   verifyOtp?: Maybe<Scalars['Boolean']['output']>;
+};
+
+
+export type MutationCreatePostArgs = {
+  content?: InputMaybe<CreatePostContent>;
 };
 
 
@@ -44,9 +64,33 @@ export type MutationVerifyOtpArgs = {
   content?: InputMaybe<VerifyOtpContent>;
 };
 
+export type Post = {
+  __typename?: 'Post';
+  createdAt?: Maybe<Scalars['Date']['output']>;
+  description?: Maybe<Scalars['String']['output']>;
+  id?: Maybe<Scalars['ID']['output']>;
+  media?: Maybe<Array<Maybe<Scalars['String']['output']>>>;
+  name?: Maybe<Scalars['String']['output']>;
+  postType?: Maybe<PostType>;
+  updatedAt?: Maybe<Scalars['Date']['output']>;
+  user?: Maybe<User>;
+  userId?: Maybe<Scalars['ID']['output']>;
+};
+
+export enum PostType {
+  Giveaway = 'giveaway',
+  Request = 'request'
+}
+
 export type Query = {
   __typename?: 'Query';
+  getPosts?: Maybe<Array<Maybe<Post>>>;
   getUsers?: Maybe<Array<Maybe<User>>>;
+};
+
+
+export type QueryGetPostsArgs = {
+  filter?: InputMaybe<GetPostsFilter>;
 };
 
 export type SignInContent = {
@@ -91,7 +135,15 @@ export type VerifyOtpMutationVariables = Exact<{
 
 export type VerifyOtpMutation = { __typename?: 'Mutation', verifyOtp?: boolean | null };
 
+export type GetPostsQueryVariables = Exact<{
+  filter?: InputMaybe<GetPostsFilter>;
+}>;
+
+
+export type GetPostsQuery = { __typename?: 'Query', getPosts?: Array<{ __typename?: 'Post', id?: string | null, name?: string | null, description?: string | null, media?: Array<string | null> | null, userId?: string | null, createdAt?: any | null, updatedAt?: any | null, postType?: PostType | null, user?: { __typename?: 'User', id?: string | null, phone?: string | null, fullName?: string | null } | null } | null> | null };
+
 
 export const SignUpDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SignUp"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"content"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"SignUpContent"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signUp"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"content"},"value":{"kind":"Variable","name":{"kind":"Name","value":"content"}}}]}]}}]} as unknown as DocumentNode<SignUpMutation, SignUpMutationVariables>;
 export const SignInDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"SignIn"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"content"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"SignInContent"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"signIn"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"content"},"value":{"kind":"Variable","name":{"kind":"Name","value":"content"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}}]}},{"kind":"Field","name":{"kind":"Name","value":"accessToken"}}]}}]}}]} as unknown as DocumentNode<SignInMutation, SignInMutationVariables>;
 export const VerifyOtpDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"mutation","name":{"kind":"Name","value":"VerifyOtp"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"content"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"VerifyOtpContent"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"verifyOtp"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"content"},"value":{"kind":"Variable","name":{"kind":"Name","value":"content"}}}]}]}}]} as unknown as DocumentNode<VerifyOtpMutation, VerifyOtpMutationVariables>;
+export const GetPostsDocument = {"kind":"Document","definitions":[{"kind":"OperationDefinition","operation":"query","name":{"kind":"Name","value":"GetPosts"},"variableDefinitions":[{"kind":"VariableDefinition","variable":{"kind":"Variable","name":{"kind":"Name","value":"filter"}},"type":{"kind":"NamedType","name":{"kind":"Name","value":"GetPostsFilter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"getPosts"},"arguments":[{"kind":"Argument","name":{"kind":"Name","value":"filter"},"value":{"kind":"Variable","name":{"kind":"Name","value":"filter"}}}],"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"name"}},{"kind":"Field","name":{"kind":"Name","value":"description"}},{"kind":"Field","name":{"kind":"Name","value":"media"}},{"kind":"Field","name":{"kind":"Name","value":"user"},"selectionSet":{"kind":"SelectionSet","selections":[{"kind":"Field","name":{"kind":"Name","value":"id"}},{"kind":"Field","name":{"kind":"Name","value":"phone"}},{"kind":"Field","name":{"kind":"Name","value":"fullName"}}]}},{"kind":"Field","name":{"kind":"Name","value":"userId"}},{"kind":"Field","name":{"kind":"Name","value":"createdAt"}},{"kind":"Field","name":{"kind":"Name","value":"updatedAt"}},{"kind":"Field","name":{"kind":"Name","value":"postType"}}]}}]}}]} as unknown as DocumentNode<GetPostsQuery, GetPostsQueryVariables>;

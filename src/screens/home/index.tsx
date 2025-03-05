@@ -8,27 +8,20 @@ import {
 } from "react-native";
 import React, { useRef, useState } from "react";
 import {
-  ArrowUpTrayIcon,
   BookmarkIcon,
   EllipsisHorizontalIcon,
   MapPinIcon,
 } from "react-native-heroicons/outline";
 import AppText from "../../common/Core/AppText";
 import { ChatBubbleLeftIcon, HeartIcon } from "react-native-heroicons/outline";
-import { posts } from "../../data";
 import ImagesGrid from "./ImagesGrid";
 import Sheet from "../../common/sheet";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
 import AppHeader from "../../common/appHeader";
-
-const images = [
-  require("../../../assets/images/shoe.jpeg"),
-  require("../../../assets/images/dress1.jpeg"),
-  require("../../../assets/images/lingery.jpeg"),
-  require("../../../assets/images/hoodie.jpeg"),
-];
+import useFetchPosts from "../../hooks/use-fetch-posts";
 
 const Home = ({ navigation }: any) => {
+  const { posts, loading } = useFetchPosts();
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = React.useCallback(() => {
@@ -53,7 +46,6 @@ const Home = ({ navigation }: any) => {
         <View>
           <View className="w-[96%] mx-auto">
             <FlatList
-              showsVerticalScrollIndicator={false}
               refreshControl={
                 <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
               }
@@ -67,25 +59,28 @@ const Home = ({ navigation }: any) => {
                           source={require("../../../assets/images/pp.jpeg")}
                           style={{ width: 32, height: 32, borderRadius: 100 }}
                         />
-                        <AppText text="Humble" style="text-sm ml-2" />
+                        <AppText
+                          text={item?.user?.fullName ?? ""}
+                          style="text-sm ml-2"
+                        />
                       </View>
                       <TouchableOpacity>
-                        <EllipsisHorizontalIcon size={30} />
+                        <EllipsisHorizontalIcon size={30} color={"#6B7280"} />
                       </TouchableOpacity>
                     </View>
                     <View className="mt-2">
                       <AppText
-                        text="Nike Shoes"
+                        text={item?.name ?? ""}
                         style="text-lg font-semibold text-main_dark"
                       />
                       <AppText
-                        text="The description of the item you want to dash for free goes here and can be long to occupy three lines"
+                        text={item?.description ?? ""}
                         style="text-xs text-main_gray"
                       />
                       <View className="my-2 flex flex-row items-center space-x-3">
                         <View>
                           <AppText
-                            text="Giveaway"
+                            text={item?.postType ?? ""}
                             style="border text-main_green border-main_green py-0.5 px-2 rounded-xl"
                           />
                         </View>
@@ -98,7 +93,7 @@ const Home = ({ navigation }: any) => {
                         </View>
                       </View>
                       <View className="mt-2 border border-main_gray/30 rounded-xl overflow-hidden">
-                        <ImagesGrid images={images} />
+                        <ImagesGrid images={item?.media} />
                       </View>
                     </View>
                     <View>
@@ -124,7 +119,10 @@ const Home = ({ navigation }: any) => {
                           </TouchableOpacity>
                         </View>
                         <View>
-                          <TouchableOpacity className="bg-main_green p-3 rounded-lg">
+                          <TouchableOpacity
+                            onPress={() => navigation.navigate("NewInterest")}
+                            className="bg-main_green p-3 rounded-lg"
+                          >
                             <AppText
                               text="I am Interested"
                               style="text-white font-semibold"

@@ -2,10 +2,11 @@ import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { appScreens } from "../constants";
 import SideDrawer from "../navigation/drawer";
+import NewInterest from "../screens/newInterest";
 
 export type AppStackParamList = {
-  MainApp: undefined;
   SideDrawer: undefined;
+  NewInterest: undefined;
 };
 
 const Stack = createNativeStackNavigator<AppStackParamList>();
@@ -18,6 +19,7 @@ const AppStack = () => {
       }}
     >
       <Stack.Screen name={appScreens.SideDrawer} component={SideDrawer} />
+      <Stack.Screen name={appScreens.NewInterest} component={NewInterest} />
     </Stack.Navigator>
   );
 };

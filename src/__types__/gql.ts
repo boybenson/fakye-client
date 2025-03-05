@@ -17,11 +17,13 @@ type Documents = {
     "\n  mutation SignUp($content: SignUpContent) {\n    signUp(content: $content)\n  }\n": typeof types.SignUpDocument,
     "\n  mutation SignIn($content: SignInContent) {\n    signIn(content: $content) {\n      user {\n        id\n        fullName\n        phone\n      }\n      accessToken\n    }\n  }\n": typeof types.SignInDocument,
     "\n  mutation VerifyOtp($content: VerifyOtpContent) {\n    verifyOtp(content: $content)\n  }\n": typeof types.VerifyOtpDocument,
+    "\n  query GetPosts($filter: GetPostsFilter) {\n    getPosts(filter: $filter) {\n      id\n      name\n      description\n      media\n      user {\n        id\n        phone\n        fullName\n      }\n      userId\n      createdAt\n      updatedAt\n      postType\n    }\n  }\n": typeof types.GetPostsDocument,
 };
 const documents: Documents = {
     "\n  mutation SignUp($content: SignUpContent) {\n    signUp(content: $content)\n  }\n": types.SignUpDocument,
     "\n  mutation SignIn($content: SignInContent) {\n    signIn(content: $content) {\n      user {\n        id\n        fullName\n        phone\n      }\n      accessToken\n    }\n  }\n": types.SignInDocument,
     "\n  mutation VerifyOtp($content: VerifyOtpContent) {\n    verifyOtp(content: $content)\n  }\n": types.VerifyOtpDocument,
+    "\n  query GetPosts($filter: GetPostsFilter) {\n    getPosts(filter: $filter) {\n      id\n      name\n      description\n      media\n      user {\n        id\n        phone\n        fullName\n      }\n      userId\n      createdAt\n      updatedAt\n      postType\n    }\n  }\n": types.GetPostsDocument,
 };
 
 /**
@@ -50,6 +52,10 @@ export function gql(source: "\n  mutation SignIn($content: SignInContent) {\n   
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation VerifyOtp($content: VerifyOtpContent) {\n    verifyOtp(content: $content)\n  }\n"): (typeof documents)["\n  mutation VerifyOtp($content: VerifyOtpContent) {\n    verifyOtp(content: $content)\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query GetPosts($filter: GetPostsFilter) {\n    getPosts(filter: $filter) {\n      id\n      name\n      description\n      media\n      user {\n        id\n        phone\n        fullName\n      }\n      userId\n      createdAt\n      updatedAt\n      postType\n    }\n  }\n"): (typeof documents)["\n  query GetPosts($filter: GetPostsFilter) {\n    getPosts(filter: $filter) {\n      id\n      name\n      description\n      media\n      user {\n        id\n        phone\n        fullName\n      }\n      userId\n      createdAt\n      updatedAt\n      postType\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};
