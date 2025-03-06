@@ -19,3 +19,9 @@ export const GET_POSTS = gql`
     }
   }
 `;
+
+export const GET_IS_POST_BOOKMARKED = gql`
+  query Query($filter: IsPostBookmarkedFilter) {
+    isPostBookmarked(filter: $filter)
+  }
+`;

@@ -24,3 +24,9 @@ export const VERIFY_OTP_CODE = gql`
     verifyOtp(content: $content)
   }
 `;
+
+export const TOGGLE_BOOKMARK = gql`
+  mutation ToggleBookMark($content: ToggleBookMarkContent) {
+    toggleBookMark(content: $content)
+  }
+`;

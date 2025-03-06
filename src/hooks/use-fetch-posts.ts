@@ -1,5 +1,4 @@
 import { useQuery } from "@apollo/client";
-import React from "react";
 import { GET_POSTS } from "../graphql/queries";
 import { GetPostsQuery, GetPostsQueryVariables } from "../__types__/graphql";
 

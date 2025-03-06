@@ -3,13 +3,13 @@ import {
   Image,
   RefreshControl,
   SafeAreaView,
-  Text,
   TouchableOpacity,
   View,
 } from "react-native";
 import React, { useRef, useState } from "react";
 import {
   BookmarkIcon,
+  ClockIcon,
   EllipsisHorizontalIcon,
   MapPinIcon,
 } from "react-native-heroicons/outline";
@@ -22,6 +22,8 @@ import AppHeader from "../../common/appHeader";
 import useFetchPosts from "../../hooks/use-fetch-posts";
 import { PostType } from "../../__types__/graphql";
 import Comments from "../Posts/components/Comments";
+import { calculateTimeAgo } from "../../helpers";
+import BookmarkBtn from "./BookmarkBtn";
 
 const Home = ({ navigation }: any) => {
   const { posts, loading } = useFetchPosts();
@@ -111,6 +113,13 @@ const Home = ({ navigation }: any) => {
                               style="text-main_gray p-1 rounded-xl"
                             />
                           </View>
+                          <View className="flex flex-row items-center">
+                            <ClockIcon size={20} color={"#6B7280"} />
+                            <AppText
+                              text={calculateTimeAgo(item?.createdAt)}
+                              style="text-main_gray p-1 rounded-2xl"
+                            />
+                          </View>
                         </View>
                         <View className="mt-2 border border-main_gray/30 rounded-xl overflow-hidden">
                           <ImagesGrid images={item?.media} />
@@ -134,9 +143,7 @@ const Home = ({ navigation }: any) => {
                                 <AppText text="100" />
                               </View>
                             </TouchableOpacity>
-                            <TouchableOpacity className="flex-row items-center space-x-1">
-                              <BookmarkIcon color={"#6B7280"} />
-                            </TouchableOpacity>
+                            <BookmarkBtn postId={item?.id ?? ""} />
                           </View>
                           <View>
                             <TouchableOpacity
