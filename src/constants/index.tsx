@@ -31,6 +31,7 @@ export const appScreens: Record<
 > = {
   SideDrawer: "SideDrawer",
   NewInterest: "NewInterest",
+  Bookmarks: "Bookmarks",
 };
 
 export const rootScreens: Record<
@@ -58,14 +59,9 @@ export const drawerLinks = [
     link: "",
   },
   {
-    label: "Foundations",
-    icon: <UsersIcon color={"#6B7280"} size={25} />,
-    link: "",
-  },
-  {
-    label: "Bookmark",
+    label: "Bookmarks",
     icon: <BookmarkIcon color={"#6B7280"} size={25} />,
-    link: "",
+    link: appScreens.Bookmarks,
   },
   {
     label: "Notifications",

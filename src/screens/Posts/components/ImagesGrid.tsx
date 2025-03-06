@@ -11,7 +11,7 @@ const ImagesGrid = ({ images }: any) => {
     setVisible(true);
   };
 
-  const imageViewerData = images.map((img: any) => ({
+  const imageViewerData = images?.map((img: any) => ({
     uri: img,
   }));
 

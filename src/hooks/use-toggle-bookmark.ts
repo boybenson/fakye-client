@@ -4,7 +4,7 @@ import {
   ToggleBookMarkMutation,
   ToggleBookMarkMutationVariables,
 } from "../__types__/graphql";
-import { GET_IS_POST_BOOKMARKED } from "../graphql/queries";
+import { GET_BOOKMARKS, GET_IS_POST_BOOKMARKED } from "../graphql/queries";
 
 const useToggleBookmark = () => {
   const [toggleBookmark, { loading, ...rest }] = useMutation<
@@ -12,7 +12,7 @@ const useToggleBookmark = () => {
     ToggleBookMarkMutationVariables
   >(TOGGLE_BOOKMARK, {
     fetchPolicy: "network-only",
-    refetchQueries: [GET_IS_POST_BOOKMARKED],
+    refetchQueries: [GET_IS_POST_BOOKMARKED, GET_BOOKMARKS],
   });
   return {
     toggleBookmark,

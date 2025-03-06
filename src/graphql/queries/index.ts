@@ -25,3 +25,26 @@ export const GET_IS_POST_BOOKMARKED = gql`
     isPostBookmarked(filter: $filter)
   }
 `;
+
+export const GET_BOOKMARKS = gql`
+  query GetBookmarks($filter: GetBookmarksFilter) {
+    getBookmarks(filter: $filter) {
+      id
+      user {
+        id
+        phone
+        fullName
+      }
+      post {
+        id
+        name
+        description
+        userId
+        media
+        createdAt
+        updatedAt
+        postType
+      }
+    }
+  }
+`;

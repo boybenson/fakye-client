@@ -2,10 +2,10 @@ import { ActivityIndicator, TouchableOpacity } from "react-native";
 import React from "react";
 import { BookmarkIcon } from "react-native-heroicons/outline";
 import { BookmarkIcon as BookmarkIconSolid } from "react-native-heroicons/solid";
-import useToggleBookmark from "../../hooks/use-toggle-bookmark";
-import useAuthStore from "../../zustand/auth-store";
-import { Toast } from "../../common/Core/Alerts";
-import useIsPostBookmarked from "../../hooks/use-ispost-bookmarked";
+import useAuthStore from "../../../zustand/auth-store";
+import useToggleBookmark from "../../../hooks/use-toggle-bookmark";
+import useIsPostBookmarked from "../../../hooks/use-ispost-bookmarked";
+import { Toast } from "../../../common/Core/Alerts";
 
 type Iprops = {
   postId: string;
