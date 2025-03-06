@@ -9,8 +9,10 @@ import useAuthStore from "../zustand/auth-store";
 
 const httpLink = new HttpLink({
   uri: __DEV__
-    ? "http://localhost:9000/graphql"
-    : "http://localhost:9000/graphql",
+    ? "http://192.168.100.128:9000/graphql"
+    : "http://192.168.100.128:9000/graphql",
+  // ? "http://localhost:9000/graphql"
+  // : "http://localhost:9000/graphql",
 });
 
 const authMiddleware = new ApolloLink((operation, forward) => {

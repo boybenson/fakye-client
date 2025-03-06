@@ -50,3 +50,9 @@ export const SEARCH_POSTS = gql`
     }
   }
 `;
+
+export const CREATE_POST = gql`
+  mutation CreatePost($content: CreatePostContent) {
+    createPost(content: $content)
+  }
+`;
