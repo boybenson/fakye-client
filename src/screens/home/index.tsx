@@ -14,7 +14,7 @@ const Home = ({ navigation }: any) => {
         <SafeAreaView className="bg-white">
           <AppHeader />
         </SafeAreaView>
-        <View>
+        <View className="bg-white">
           <View className="w-[96%] mx-auto">
             {loading ? (
               <>

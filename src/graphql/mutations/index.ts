@@ -30,3 +30,23 @@ export const TOGGLE_BOOKMARK = gql`
     toggleBookMark(content: $content)
   }
 `;
+
+export const SEARCH_POSTS = gql`
+  mutation SearchPosts($filter: SearchPostsFilter) {
+    searchPosts(filter: $filter) {
+      id
+      name
+      description
+      userId
+      user {
+        id
+        phone
+        fullName
+      }
+      media
+      createdAt
+      updatedAt
+      postType
+    }
+  }
+`;

@@ -34,7 +34,7 @@ const Bookmarks = () => {
             <>
               <View>
                 <AppText
-                  text="Loading Posts..."
+                  text="Loading bookmarks..."
                   style="text-center my-2 font-semibold text-lg text-main_gray"
                 />
               </View>
