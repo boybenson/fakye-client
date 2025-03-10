@@ -30,10 +30,12 @@ type Iprops = {
 const Posts = ({ posts }: Iprops) => {
   const navigation: any = useNavigation();
   const [refreshing, setRefreshing] = useState(false);
+  const [selectedPost, setSelectedPost] = useState<Post | null>(null);
 
   const bottomSheetRef = useRef<BottomSheetModal>(null);
 
-  const handleOpenComments = () => {
+  const handleOpenComments = (post: Post) => {
+    setSelectedPost(post);
     bottomSheetRef?.current?.present();
   };
 
@@ -112,12 +114,12 @@ const Posts = ({ posts }: Iprops) => {
                 <View className="flex-row items-center justify-between mt-3">
                   <View className="flex flex-row items-center space-x-4">
                     <TouchableOpacity
-                      onPress={() => handleOpenComments()}
+                      onPress={() => handleOpenComments(item)}
                       className="flex flex-row items-center space-x-1"
                     >
                       <ChatBubbleLeftIcon color={"#6B7280"} />
                       <View>
-                        <AppText text="120" />
+                        <AppText text={item?.commentCount} />
                       </View>
                     </TouchableOpacity>
                     <TouchableOpacity className="flex-row items-center space-x-1">
@@ -147,7 +149,7 @@ const Posts = ({ posts }: Iprops) => {
       />
 
       <Sheet bottomSheetRef={bottomSheetRef} snapPoints={["55%"]}>
-        <Comments />
+        <Comments bottomSheetRef={bottomSheetRef} post={selectedPost} />
       </Sheet>
     </>
   );

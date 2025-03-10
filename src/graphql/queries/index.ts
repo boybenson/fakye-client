@@ -16,6 +16,7 @@ export const GET_POSTS = gql`
       createdAt
       updatedAt
       postType
+      commentCount
     }
   }
 `;
@@ -45,6 +46,34 @@ export const GET_BOOKMARKS = gql`
         updatedAt
         postType
       }
+    }
+  }
+`;
+
+export const GET_COMMENTS = gql`
+  query GetComments($filter: GetCommentsFilter) {
+    getComments(filter: $filter) {
+      id
+      message
+      userId
+      user {
+        id
+        phone
+        fullName
+      }
+      postId
+      post {
+        id
+        name
+        description
+        userId
+        media
+        postType
+        createdAt
+        updatedAt
+      }
+      createdAt
+      updatedAt
     }
   }
 `;

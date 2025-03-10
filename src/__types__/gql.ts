@@ -20,9 +20,11 @@ type Documents = {
     "\n  mutation ToggleBookMark($content: ToggleBookMarkContent) {\n    toggleBookMark(content: $content)\n  }\n": typeof types.ToggleBookMarkDocument,
     "\n  mutation SearchPosts($filter: SearchPostsFilter) {\n    searchPosts(filter: $filter) {\n      id\n      name\n      description\n      userId\n      user {\n        id\n        phone\n        fullName\n      }\n      media\n      createdAt\n      updatedAt\n      postType\n    }\n  }\n": typeof types.SearchPostsDocument,
     "\n  mutation CreatePost($content: CreatePostContent) {\n    createPost(content: $content)\n  }\n": typeof types.CreatePostDocument,
-    "\n  query GetPosts($filter: GetPostsFilter) {\n    getPosts(filter: $filter) {\n      id\n      name\n      description\n      media\n      user {\n        id\n        phone\n        fullName\n      }\n      userId\n      createdAt\n      updatedAt\n      postType\n    }\n  }\n": typeof types.GetPostsDocument,
+    "\n  mutation CreateComment($content: CreateCommentContent) {\n    createComment(content: $content)\n  }\n": typeof types.CreateCommentDocument,
+    "\n  query GetPosts($filter: GetPostsFilter) {\n    getPosts(filter: $filter) {\n      id\n      name\n      description\n      media\n      user {\n        id\n        phone\n        fullName\n      }\n      userId\n      createdAt\n      updatedAt\n      postType\n      commentCount\n    }\n  }\n": typeof types.GetPostsDocument,
     "\n  query Query($filter: IsPostBookmarkedFilter) {\n    isPostBookmarked(filter: $filter)\n  }\n": typeof types.QueryDocument,
     "\n  query GetBookmarks($filter: GetBookmarksFilter) {\n    getBookmarks(filter: $filter) {\n      id\n      user {\n        id\n        phone\n        fullName\n      }\n      post {\n        id\n        name\n        description\n        userId\n        media\n        createdAt\n        updatedAt\n        postType\n      }\n    }\n  }\n": typeof types.GetBookmarksDocument,
+    "\n  query GetComments($filter: GetCommentsFilter) {\n    getComments(filter: $filter) {\n      id\n      message\n      userId\n      user {\n        id\n        phone\n        fullName\n      }\n      postId\n      post {\n        id\n        name\n        description\n        userId\n        media\n        postType\n        createdAt\n        updatedAt\n      }\n      createdAt\n      updatedAt\n    }\n  }\n": typeof types.GetCommentsDocument,
 };
 const documents: Documents = {
     "\n  mutation SignUp($content: SignUpContent) {\n    signUp(content: $content)\n  }\n": types.SignUpDocument,
@@ -31,9 +33,11 @@ const documents: Documents = {
     "\n  mutation ToggleBookMark($content: ToggleBookMarkContent) {\n    toggleBookMark(content: $content)\n  }\n": types.ToggleBookMarkDocument,
     "\n  mutation SearchPosts($filter: SearchPostsFilter) {\n    searchPosts(filter: $filter) {\n      id\n      name\n      description\n      userId\n      user {\n        id\n        phone\n        fullName\n      }\n      media\n      createdAt\n      updatedAt\n      postType\n    }\n  }\n": types.SearchPostsDocument,
     "\n  mutation CreatePost($content: CreatePostContent) {\n    createPost(content: $content)\n  }\n": types.CreatePostDocument,
-    "\n  query GetPosts($filter: GetPostsFilter) {\n    getPosts(filter: $filter) {\n      id\n      name\n      description\n      media\n      user {\n        id\n        phone\n        fullName\n      }\n      userId\n      createdAt\n      updatedAt\n      postType\n    }\n  }\n": types.GetPostsDocument,
+    "\n  mutation CreateComment($content: CreateCommentContent) {\n    createComment(content: $content)\n  }\n": types.CreateCommentDocument,
+    "\n  query GetPosts($filter: GetPostsFilter) {\n    getPosts(filter: $filter) {\n      id\n      name\n      description\n      media\n      user {\n        id\n        phone\n        fullName\n      }\n      userId\n      createdAt\n      updatedAt\n      postType\n      commentCount\n    }\n  }\n": types.GetPostsDocument,
     "\n  query Query($filter: IsPostBookmarkedFilter) {\n    isPostBookmarked(filter: $filter)\n  }\n": types.QueryDocument,
     "\n  query GetBookmarks($filter: GetBookmarksFilter) {\n    getBookmarks(filter: $filter) {\n      id\n      user {\n        id\n        phone\n        fullName\n      }\n      post {\n        id\n        name\n        description\n        userId\n        media\n        createdAt\n        updatedAt\n        postType\n      }\n    }\n  }\n": types.GetBookmarksDocument,
+    "\n  query GetComments($filter: GetCommentsFilter) {\n    getComments(filter: $filter) {\n      id\n      message\n      userId\n      user {\n        id\n        phone\n        fullName\n      }\n      postId\n      post {\n        id\n        name\n        description\n        userId\n        media\n        postType\n        createdAt\n        updatedAt\n      }\n      createdAt\n      updatedAt\n    }\n  }\n": types.GetCommentsDocument,
 };
 
 /**
@@ -77,7 +81,11 @@ export function gql(source: "\n  mutation CreatePost($content: CreatePostContent
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
-export function gql(source: "\n  query GetPosts($filter: GetPostsFilter) {\n    getPosts(filter: $filter) {\n      id\n      name\n      description\n      media\n      user {\n        id\n        phone\n        fullName\n      }\n      userId\n      createdAt\n      updatedAt\n      postType\n    }\n  }\n"): (typeof documents)["\n  query GetPosts($filter: GetPostsFilter) {\n    getPosts(filter: $filter) {\n      id\n      name\n      description\n      media\n      user {\n        id\n        phone\n        fullName\n      }\n      userId\n      createdAt\n      updatedAt\n      postType\n    }\n  }\n"];
+export function gql(source: "\n  mutation CreateComment($content: CreateCommentContent) {\n    createComment(content: $content)\n  }\n"): (typeof documents)["\n  mutation CreateComment($content: CreateCommentContent) {\n    createComment(content: $content)\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query GetPosts($filter: GetPostsFilter) {\n    getPosts(filter: $filter) {\n      id\n      name\n      description\n      media\n      user {\n        id\n        phone\n        fullName\n      }\n      userId\n      createdAt\n      updatedAt\n      postType\n      commentCount\n    }\n  }\n"): (typeof documents)["\n  query GetPosts($filter: GetPostsFilter) {\n    getPosts(filter: $filter) {\n      id\n      name\n      description\n      media\n      user {\n        id\n        phone\n        fullName\n      }\n      userId\n      createdAt\n      updatedAt\n      postType\n      commentCount\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
@@ -86,6 +94,10 @@ export function gql(source: "\n  query Query($filter: IsPostBookmarkedFilter) {\
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  query GetBookmarks($filter: GetBookmarksFilter) {\n    getBookmarks(filter: $filter) {\n      id\n      user {\n        id\n        phone\n        fullName\n      }\n      post {\n        id\n        name\n        description\n        userId\n        media\n        createdAt\n        updatedAt\n        postType\n      }\n    }\n  }\n"): (typeof documents)["\n  query GetBookmarks($filter: GetBookmarksFilter) {\n    getBookmarks(filter: $filter) {\n      id\n      user {\n        id\n        phone\n        fullName\n      }\n      post {\n        id\n        name\n        description\n        userId\n        media\n        createdAt\n        updatedAt\n        postType\n      }\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  query GetComments($filter: GetCommentsFilter) {\n    getComments(filter: $filter) {\n      id\n      message\n      userId\n      user {\n        id\n        phone\n        fullName\n      }\n      postId\n      post {\n        id\n        name\n        description\n        userId\n        media\n        postType\n        createdAt\n        updatedAt\n      }\n      createdAt\n      updatedAt\n    }\n  }\n"): (typeof documents)["\n  query GetComments($filter: GetCommentsFilter) {\n    getComments(filter: $filter) {\n      id\n      message\n      userId\n      user {\n        id\n        phone\n        fullName\n      }\n      postId\n      post {\n        id\n        name\n        description\n        userId\n        media\n        postType\n        createdAt\n        updatedAt\n      }\n      createdAt\n      updatedAt\n    }\n  }\n"];
 
 export function gql(source: string) {
   return (documents as any)[source] ?? {};

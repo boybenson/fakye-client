@@ -56,3 +56,9 @@ export const CREATE_POST = gql`
     createPost(content: $content)
   }
 `;
+
+export const CREATE_COMMENT = gql`
+  mutation CreateComment($content: CreateCommentContent) {
+    createComment(content: $content)
+  }
+`;

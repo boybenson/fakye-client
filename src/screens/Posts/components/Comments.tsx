@@ -1,32 +1,105 @@
-import { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import { BottomSheetModal, BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import React from "react";
-import { Text, TextInput, TouchableOpacity, View, Image } from "react-native";
+import { ActivityIndicator, Text, TouchableOpacity, View } from "react-native";
+import { XMarkIcon } from "react-native-heroicons/outline";
+import AppText from "../../../common/Core/AppText";
+import useFetchComments from "../../../hooks/use-fetch-comments";
+import { calculateTimeAgo } from "../../../helpers";
+import NewCommentForm from "./NewCommentForm";
+import { Post } from "../../../__types__/graphql";
+import { truncate } from "lodash";
 
-const Comments = () => {
+type Iprops = {
+  bottomSheetRef: React.RefObject<BottomSheetModal>;
+  post: Post | null;
+};
+
+const Comments = ({ bottomSheetRef, post }: Iprops) => {
+  const { comments, loading } = useFetchComments({
+    filter: {
+      postId: post?.id,
+    },
+  });
+  const handleCloseComments = () => {
+    bottomSheetRef?.current?.dismiss();
+  };
+
   return (
-    <View style={{ flex: 1 }}>
-      <View style={{ flex: 1 }}>
-        <BottomSheetScrollView>
-          {Array(50)
-            .fill(1)
-            .map((id, idx) => {
-              return <Text key={idx}>hey</Text>;
-            })}
-        </BottomSheetScrollView>
-      </View>
-      <View style={{ position: "absolute", bottom: 40, left: 0, right: 0 }}>
-        <View className="border-t border-[#6B7280] py-1" />
-        <View className="flex flex-row mx-auto w-[95%] space-x-2">
-          <TextInput className="border border-[#6B7280] flex-1 rounded-3xl p-0.5 px-2" />
-          <TouchableOpacity className="bg-main_green rounded-full p-0.5 flex items-center justify-center">
-            <Image
-              source={require("../../../assets/images/send.png")}
-              className="h-10 w-10 rounded-full"
-            />
-          </TouchableOpacity>
+    <>
+      <View className="flex-1 justify-between">
+        <View className="">
+          <View className="flex flex-row items-centers justify-between mx-auto w-[95%] space-x-2 mt-3">
+            <View />
+            <View>
+              <AppText
+                text={`${comments?.length ?? 0} Comments`}
+                style="text-main_gray font-semibold text-lg"
+              />
+            </View>
+            <TouchableOpacity onPress={() => handleCloseComments()}>
+              <XMarkIcon color="#6B7280" size={30} />
+            </TouchableOpacity>
+          </View>
+          <View className="border-b border-gray-500/30 mt-1" />
         </View>
+        <View className="flex-1">
+          <BottomSheetScrollView>
+            {loading && (
+              <>
+                <View className="mt-4">
+                  <ActivityIndicator />
+                  <AppText
+                    text="Loading Comments..."
+                    style="text-center my-2 font-normal text-lg text-main_gray"
+                  />
+                </View>
+              </>
+            )}
+            {!loading && comments?.length < 1 && (
+              <>
+                <View>
+                  <AppText
+                    text="No comments..."
+                    style="text-center my-2 font-normal text-lg text-main_gray"
+                  />
+                </View>
+              </>
+            )}
+            {!loading &&
+              comments?.length > 0 &&
+              comments?.map((comment, idx) => {
+                return (
+                  <View key={idx} className="mt-3 w-full">
+                    <View className="w-[96%] mx-auto">
+                      <View className="flex flex-row items-end space-x-4">
+                        <View>
+                          <TouchableOpacity className="w-8 h-8 bg-main_green rounded-full"></TouchableOpacity>
+                        </View>
+                        <View className="bg-[#F5F6F9] p-4 rounded-lg flex-1">
+                          <View className="pb-3 flex flex-row items-center justify-between">
+                            <Text className="font-semibold text-sm">
+                              {comment?.user?.fullName}
+                            </Text>
+                            <Text className="font-normal text-xs text-[#171C1B]">
+                              {calculateTimeAgo(comment?.createdAt)}
+                            </Text>
+                          </View>
+                          <View>
+                            <Text className="text-[#171C1B]">
+                              {comment?.message}
+                            </Text>
+                          </View>
+                        </View>
+                      </View>
+                    </View>
+                  </View>
+                );
+              })}
+          </BottomSheetScrollView>
+        </View>
+        <NewCommentForm post={post} bottomSheetRef={bottomSheetRef} />
       </View>
-    </View>
+    </>
   );
 };
 
