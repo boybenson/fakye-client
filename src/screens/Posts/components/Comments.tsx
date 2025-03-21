@@ -7,7 +7,6 @@ import useFetchComments from "../../../hooks/use-fetch-comments";
 import { calculateTimeAgo } from "../../../helpers";
 import NewCommentForm from "./NewCommentForm";
 import { Post } from "../../../__types__/graphql";
-import { truncate } from "lodash";
 
 type Iprops = {
   bottomSheetRef: React.RefObject<BottomSheetModal>;
@@ -72,9 +71,7 @@ const Comments = ({ bottomSheetRef, post }: Iprops) => {
                   <View key={idx} className="mt-3 w-full">
                     <View className="w-[96%] mx-auto">
                       <View className="flex flex-row items-end space-x-4">
-                        <View>
-                          <TouchableOpacity className="w-8 h-8 bg-main_green rounded-full"></TouchableOpacity>
-                        </View>
+                        <View />
                         <View className="bg-[#F5F6F9] p-4 rounded-lg flex-1">
                           <View className="pb-3 flex flex-row items-center justify-between">
                             <Text className="font-semibold text-sm">
