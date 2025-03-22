@@ -12,6 +12,7 @@ import Home from "../../screens/home";
 import Search from "../../screens/search";
 import NewPost from "../../screens/newPost";
 import { UserGroupIcon } from "react-native-heroicons/outline";
+import Chats from "../../screens/chats";
 
 const Tab = createBottomTabNavigator();
 
@@ -73,7 +74,7 @@ const BottomTabs = () => {
       <Tab.Screen name={tabScreens.SearchTab} component={Search} />
       <Tab.Screen name={tabScreens.PostItemTab} component={NewPost} />
       <Tab.Screen name={tabScreens.FoundationTab} component={HomeScreen} />
-      <Tab.Screen name={tabScreens.ChatsTab} component={HomeScreen} />
+      <Tab.Screen name={tabScreens.ChatsTab} component={Chats} />
     </Tab.Navigator>
   );
 };

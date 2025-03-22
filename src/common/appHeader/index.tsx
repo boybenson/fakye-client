@@ -4,7 +4,11 @@ import AppText from "../Core/AppText";
 import { Cog8ToothIcon } from "react-native-heroicons/outline";
 import { useNavigation } from "@react-navigation/native";
 
-const AppHeader = () => {
+type Iprops = {
+  title?: string;
+};
+
+const AppHeader = ({ title }: Iprops) => {
   const navigation: any = useNavigation();
 
   return (
@@ -17,7 +21,7 @@ const AppHeader = () => {
       </TouchableOpacity>
       <AppText
         style="text-main_black text-lg font-semibold text-main_green"
-        text="Fakye"
+        text={title ?? "Fakye"}
       />
       <TouchableOpacity>
         <Cog8ToothIcon size={30} color={"#1A0E00"} />

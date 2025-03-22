@@ -32,6 +32,7 @@ export const appScreens: Record<
   SideDrawer: "SideDrawer",
   NewInterest: "NewInterest",
   Bookmarks: "Bookmarks",
+  Chat: "Chat",
 };
 
 export const rootScreens: Record<
