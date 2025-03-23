@@ -5,17 +5,16 @@ import AppHeader from "../../common/appHeader";
 import useFetchPosts from "../../hooks/use-fetch-posts";
 import Posts from "../Posts";
 
-const Home = ({ navigation }: any) => {
+const Home = () => {
   const { posts, loading } = useFetchPosts();
-
   return (
     <View>
       <View>
         <SafeAreaView className="bg-white">
           <AppHeader />
         </SafeAreaView>
-        <View className="bg-white">
-          <View className="w-[96%] mx-auto">
+        <View className="bg-white py-3">
+          <View className="w-[96%] mx-auto mb-[300px]">
             {loading ? (
               <>
                 <View>

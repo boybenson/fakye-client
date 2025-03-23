@@ -22,6 +22,7 @@ import Comments from "./components/Comments";
 import BookmarkBtn from "./components/BookMarkBtn";
 import { useNavigation } from "@react-navigation/native";
 import ImagesGrid from "./components/ImagesGrid";
+import useFetchPosts from "../../hooks/use-fetch-posts";
 
 type Iprops = {
   posts: any;
@@ -91,13 +92,17 @@ const Posts = ({ posts }: Iprops) => {
                       } border py-0.5 px-2 rounded-xl`}
                     />
                   </View>
-                  <View className="flex flex-row items-center">
-                    <MapPinIcon size={20} color={"#6B7280"} />
-                    <AppText
-                      text="Legon"
-                      style="text-main_gray p-1 rounded-xl"
-                    />
-                  </View>
+
+                  {item?.showLocation && (
+                    <View className="flex flex-row items-center">
+                      <MapPinIcon size={20} color={"#6B7280"} />
+                      <AppText
+                        text="Legon"
+                        style="text-main_gray p-1 rounded-xl"
+                      />
+                    </View>
+                  )}
+
                   <View className="flex flex-row items-center">
                     <ClockIcon size={20} color={"#6B7280"} />
                     <AppText
@@ -106,9 +111,11 @@ const Posts = ({ posts }: Iprops) => {
                     />
                   </View>
                 </View>
-                <View className="mt-2 border border-main_gray/30 rounded-xl overflow-hidden">
-                  <ImagesGrid images={item?.media} />
-                </View>
+                {item?.media?.length > 0 && (
+                  <View className="mt-2 border border-main_gray/30 rounded-xl overflow-hidden">
+                    <ImagesGrid images={item?.media} />
+                  </View>
+                )}
               </View>
               <View>
                 <View className="flex-row items-center justify-between mt-3">
