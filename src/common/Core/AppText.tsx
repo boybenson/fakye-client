@@ -3,7 +3,7 @@ import React from "react";
 
 type Iprops = {
   style?: string;
-  text?: string;
+  text?: any;
 };
 
 const AppText = ({ text, style }: Iprops) => {

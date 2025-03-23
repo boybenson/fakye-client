@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   TouchableOpacity,
+  Dimensions,
 } from "react-native";
 
 interface DropdownMenuProps {
@@ -14,6 +15,7 @@ interface DropdownMenuProps {
   trigger: React.ReactNode;
   children: React.ReactNode;
   dropdownWidth?: number;
+  position?: "left" | "right" | "center";
 }
 
 export const DropdownMenu: React.FC<DropdownMenuProps> = ({
@@ -23,18 +25,37 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
   trigger,
   children,
   dropdownWidth = 150,
+  position = "left",
 }) => {
   const triggerRef = useRef<View>(null);
-  const [position, setPosition] = useState({ x: 0, y: 0 });
+  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+  const screenWidth = Dimensions.get("window").width;
 
   useEffect(() => {
     if (triggerRef.current && visible) {
-      triggerRef.current.measure((fx, fy, width, height, px, py) => {
-        setPosition({
-          x: px, // Align left with the button
-          y: py + height, // Position right beneath the button
+      setTimeout(() => {
+        triggerRef.current?.measureInWindow((px, py, width, height) => {
+          let newX = px; // Default to left
+
+          if (position === "right") {
+            newX = px + width - dropdownWidth;
+          } else if (position === "center") {
+            newX = px + width / 2 - dropdownWidth / 2;
+          }
+
+          // Prevent overflow
+          if (newX + dropdownWidth > screenWidth) {
+            newX = screenWidth - dropdownWidth - 10; // Keep it inside screen bounds
+          } else if (newX < 0) {
+            newX = 10; // Avoid going off-screen
+          }
+
+          setMenuPosition({
+            x: newX,
+            y: py + height + 5, // Position below trigger
+          });
         });
-      });
+      }, 100);
     }
   }, [visible]);
 
@@ -56,8 +77,8 @@ export const DropdownMenu: React.FC<DropdownMenuProps> = ({
                 style={[
                   styles.menu,
                   {
-                    top: position.y,
-                    left: position.x, // Ensures it's directly below the trigger
+                    top: menuPosition.y,
+                    left: menuPosition.x,
                     width: dropdownWidth,
                   },
                 ]}
@@ -76,7 +97,7 @@ export const MenuOption = ({
   onSelect,
   children,
 }: {
-  onSelect: () => void;
+  onSelect?: () => void;
   children: ReactNode;
 }) => {
   return (
@@ -107,6 +128,6 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   menuOption: {
-    padding: 5,
+    padding: 10,
   },
 });

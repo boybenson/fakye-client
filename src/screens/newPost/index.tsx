@@ -199,6 +199,7 @@ const NewPost = () => {
                       visible={visible}
                       handleOpen={() => setVisible(true)}
                       handleClose={() => setVisible(false)}
+                      position="left"
                       trigger={
                         <View className="flex flex-row justify-start">
                           <TouchableOpacity
