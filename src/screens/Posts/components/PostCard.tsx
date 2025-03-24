@@ -92,7 +92,7 @@ const PostCard = ({ item }: Iprops) => {
                 className="flex flex-row items-center justify-between"
               >
                 <AppText text="Share post" />
-                <ArrowUpTrayIcon className="w-3 h-3" />
+                <ArrowUpTrayIcon className="w-3 h-3" color="#6B7280" />
               </TouchableOpacity>
             </MenuOption>
             <View className="border-t border-gray-400/25" />
