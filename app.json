@@ -38,6 +38,12 @@
         {
           "photosPermission": "The app accesses your photos to let you share them with people you want to help."
         }
+      ],
+      [
+        "expo-location",
+        {
+          "locationAlwaysAndWhenInUsePermission": "$(PRODUCT_NAME) uses your location to display display products close to you"
+        }
       ]
     ]
   }

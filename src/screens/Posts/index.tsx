@@ -17,17 +17,15 @@ const Posts = ({ posts }: Iprops) => {
   }, []);
 
   return (
-    <>
-      <FlatList
-        refreshControl={
-          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
-        }
-        data={posts ?? []}
-        renderItem={({ item }) => {
-          return <PostCard item={item} />;
-        }}
-      />
-    </>
+    <FlatList
+      refreshControl={
+        <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+      }
+      data={posts ?? []}
+      renderItem={({ item }) => {
+        return <PostCard item={item} />;
+      }}
+    />
   );
 };
 

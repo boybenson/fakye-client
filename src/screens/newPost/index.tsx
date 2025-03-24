@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import AppText from "../../common/Core/AppText";
 import { Image } from "react-native";
 import { useNavigation } from "@react-navigation/native";
@@ -26,6 +26,7 @@ import useAuthStore from "../../zustand/auth-store";
 import { Toast } from "../../common/Core/Alerts";
 import { firebasesStorage } from "../../firebase";
 import { tabScreens } from "../../constants";
+import * as Location from "expo-location";
 
 const NewPost = () => {
   const user = useAuthStore((state) => state.user);
@@ -35,6 +36,9 @@ const NewPost = () => {
   const headerHeight = useHeaderHeight();
   const navigation: any = useNavigation();
   const [isChecked, setChecked] = useState(false);
+  const [location, setLocation] = useState<Location.LocationObject | null>(
+    null
+  );
 
   const inputRef = useRef<TextInput>(null);
 
@@ -112,6 +116,20 @@ const NewPost = () => {
     }
   };
 
+  useEffect(() => {
+    async function getCurrentLocation() {
+      let { status } = await Location.requestForegroundPermissionsAsync();
+      if (status !== "granted") {
+        return;
+      }
+
+      let location = await Location.getCurrentPositionAsync({});
+      setLocation(location);
+    }
+
+    getCurrentLocation();
+  }, []);
+
   const onSubmit = async (data?: CreatePostContent) => {
     if (notCompleted) {
       return Toast({
@@ -132,6 +150,8 @@ const NewPost = () => {
           userId: user?.id,
           media: uploadedUrls ?? [],
           showLocation: isChecked,
+          latitude: String(location?.coords?.latitude) ?? "",
+          longitude: String(location?.coords?.longitude) ?? "",
         },
       },
       onCompleted: (res) => {
