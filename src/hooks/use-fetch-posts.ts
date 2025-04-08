@@ -9,6 +9,7 @@ const useFetchPosts = () => {
       fetchPolicy: "network-only",
     }
   );
+
   return {
     posts: data?.getPosts ?? [],
     ...rest,
