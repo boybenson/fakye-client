@@ -13,12 +13,15 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../../layouts/authlayout";
 import PhoneInput from "react-native-phone-number-input";
-import { SignInContent } from "../../__types__/graphql";
 import { useForm, Controller } from "react-hook-form";
-import useSignIn from "../../hooks/use-signin";
 import ErrorMessage from "../../common/Core/ErrorMessage";
 import useAuthStore from "../../zustand/auth-store";
-// 1234
+import useSignIn from "../../hooks/use-signin";
+
+type FormInputs = {
+  phone: string;
+};
+
 const SignIn = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
@@ -34,34 +37,23 @@ const SignIn = () => {
     watch,
     trigger,
     formState: { errors },
-  } = useForm<SignInContent>();
+  } = useForm<FormInputs>();
 
   const typedPhone = watch("phone");
 
-  const { signIn, loading } = useSignIn();
+  const { isPending, signIn, isSuccess, data } = useSignIn();
 
-  const onSubmit = (data: SignInContent) => {
-    signIn({
-      variables: {
-        content: {
-          phone: data?.phone.slice(1),
-        },
-      },
-      onCompleted: (res) => {
-        if (res.signIn) {
-          setUser(res?.signIn?.user);
-          setAuthToken(res?.signIn?.accessToken);
-          return navigation.navigate("Otp", {
-            phone: res?.signIn?.user?.phone ?? "",
-          });
-        }
-        return Toast({ type: "error", message: "An error occured" });
-      },
-      onError: (err) => {
-        return Toast({ type: "error", message: err?.message });
-      },
-    });
+  const onSubmit = async (data: FormInputs) => {
+    signIn(data.phone);
   };
+
+  if (isSuccess) {
+    setUser(data);
+    setAuthToken(data?.token);
+    return navigation.navigate("Otp", {
+      phone: data?.Phone ?? "",
+    });
+  }
 
   return (
     <SafeAreaView className="bg-white h-full">
@@ -141,7 +133,7 @@ const SignIn = () => {
               onPress={handleSubmit(onSubmit)}
               className="bg-main_green p-3 rounded-xl"
             >
-              {loading ? (
+              {isPending ? (
                 <ActivityIndicator size={30} color="white" />
               ) : (
                 <AppText

@@ -1,7 +1,7 @@
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { User } from "../__types__/graphql";
+import { User } from "../apis/types";
 
 interface AuthState {
   authToken: string | null | undefined;

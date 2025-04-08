@@ -9,6 +9,9 @@ import client from "./src/graphql";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Toasts } from "@backpackapp-io/react-native-toast";
 import { StyleSheet } from "react-native";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+
+const queryClient = new QueryClient();
 
 const App = () => {
   return (
@@ -16,7 +19,9 @@ const App = () => {
       <ApolloProvider client={client}>
         <GestureHandlerRootView style={styles.container}>
           <BottomSheetModalProvider>
-            <RootStack />
+            <QueryClientProvider client={queryClient}>
+              <RootStack />
+            </QueryClientProvider>
           </BottomSheetModalProvider>
           <Toasts />
         </GestureHandlerRootView>
