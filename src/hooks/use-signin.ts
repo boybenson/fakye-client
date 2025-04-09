@@ -1,10 +1,8 @@
-import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useMutation } from "@tanstack/react-query";
 import axios from "axios";
 import { endpoints } from "../apis/endpoints";
 
 const useSignIn = () => {
-  const queryClient = useQueryClient();
-
   const { mutate, ...rest } = useMutation({
     mutationFn: async (phone: string) => {
       const res = await axios.post(
