@@ -6,7 +6,6 @@ import {
   BellIcon,
   BookmarkIcon,
   UserIcon,
-  UsersIcon,
 } from "react-native-heroicons/outline";
 
 export const welcomeScreens: Record<

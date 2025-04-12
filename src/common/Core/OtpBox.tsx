@@ -85,14 +85,14 @@ const OtpBox = ({ onComplete }: any) => {
         >
           <TextInput
             ref={(el) => (inputRefs.current[idx] = el)}
-            maxLength={idx === 0 ? 4 : 1} // Allow first input to receive full OTP
+            maxLength={idx === 0 ? 4 : 1}
             keyboardType="number-pad"
             returnKeyType="next"
             defaultValue={digit}
             onChangeText={(text) => handleChangeText(text, idx)}
             onKeyPress={(e) => handleKeyPress(e, idx)}
             className={`border ${
-              digit ? "border-blue-500" : "border-main_gray/50"
+              digit ? "border-main_green" : "border-main_gray/50"
             } rounded-md mt-1.5 h-12 w-12 font-bold text-lg text-center`}
             textContentType={Platform.OS === "ios" ? "oneTimeCode" : "none"}
             autoComplete={Platform.OS === "android" ? "sms-otp" : "off"}

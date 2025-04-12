@@ -194,7 +194,7 @@ const NewPost = () => {
                 className={`${
                   notCompleted || loading || uploading
                     ? "bg-main_gray/60"
-                    : "bg-main_green"
+                    : "bg-main_primary-300"
                 } rounded-3xl p-1.5 px-6`}
               >
                 {loading || uploading ? (

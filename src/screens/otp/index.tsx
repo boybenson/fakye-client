@@ -12,11 +12,11 @@ import AppText from "../../common/Core/AppText";
 import { NavigationProp, useNavigation } from "@react-navigation/native";
 import OtpBox from "../../common/Core/OtpBox";
 import { RootStackParamList } from "../../navigation/root";
-import useVerifyOtp from "../../hooks/use-verify-otp";
 import { Toast } from "../../common/Core/Alerts";
+import useVerifyOtp from "../../hooks/use-verify-otp";
 
 const Otp = ({ route }: any) => {
-  const { verifyOtp, loading } = useVerifyOtp();
+  const { verifyOtp, isPending, isSuccess } = useVerifyOtp();
   const rootNavigation = useNavigation<NavigationProp<RootStackParamList>>();
   const phone = route?.params?.phone;
   const [otpValue, setOtpValue] = useState<any>([]);
@@ -26,24 +26,15 @@ const Otp = ({ route }: any) => {
   };
 
   const onSubmit = () => {
-    verifyOtp({
-      variables: {
-        content: {
-          phone,
-          otpCode: otpValue,
-        },
-      },
-      onCompleted: () => {
-        return rootNavigation.reset({
-          index: 0,
-          routes: [{ name: "App" }],
-        });
-      },
-      onError: (err) => {
-        return Toast({ type: "error", message: err?.message });
-      },
-    });
+    verifyOtp({ phone, otp: otpValue });
   };
+
+  if (isSuccess) {
+    return rootNavigation.reset({
+      index: 0,
+      routes: [{ name: "App" }],
+    });
+  }
 
   const disableButton = otpValue?.length < 4;
 
@@ -55,7 +46,7 @@ const Otp = ({ route }: any) => {
             title="Enter Code"
             icon={
               <TouchableOpacity
-                disabled={loading}
+                disabled={isPending}
                 onPress={() => rootNavigation.goBack()}
               >
                 <XMarkIcon size={30} color={"#1A0E00"} />
@@ -86,12 +77,12 @@ const Otp = ({ route }: any) => {
           <View className="mt-3 p-2">
             <TouchableOpacity
               onPress={onSubmit}
-              disabled={disableButton || loading}
+              disabled={disableButton || isPending}
               className={`${
                 disableButton ? "bg-main_gray/40" : "bg-main_green"
               }  p-3 rounded-xl`}
             >
-              {loading ? (
+              {isPending ? (
                 <ActivityIndicator size={20} color="white" />
               ) : (
                 <AppText
