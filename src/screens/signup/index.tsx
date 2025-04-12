@@ -20,6 +20,11 @@ import { Toast } from "../../common/Core/Alerts";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { AuthStackParamList } from "../../layouts/authlayout";
 
+type FormInputs = {
+  phone: string;
+  name: string;
+};
+
 const SignUp = () => {
   const navigation =
     useNavigation<NativeStackNavigationProp<AuthStackParamList>>();
@@ -32,31 +37,19 @@ const SignUp = () => {
     watch,
     trigger,
     formState: { errors },
-  } = useForm<SignUpContent>();
+  } = useForm<FormInputs>();
 
   const typedPhone = watch("phone");
 
-  const { signUp, loading } = useSignUp();
+  const { signUp, isPending, isSuccess } = useSignUp();
 
-  const onSubmit = (data: SignUpContent) => {
-    signUp({
-      variables: {
-        content: {
-          fullName: data?.fullName,
-          phone: data?.phone.slice(1),
-        },
-      },
-      onCompleted: (res) => {
-        if (res.signUp) {
-          return navigation.navigate("SignIn");
-        }
-        return Toast({ type: "error", message: "Error Creating account" });
-      },
-      onError: (err) => {
-        return Toast({ type: "error", message: err?.message });
-      },
-    });
+  const onSubmit = (data: FormInputs) => {
+    signUp({ phone: data?.phone.slice(1), name: data?.name });
   };
+
+  if (isSuccess) {
+    return navigation.navigate("SignIn");
+  }
 
   return (
     <SafeAreaView className="bg-white h-full">
@@ -101,10 +94,10 @@ const SignUp = () => {
                       value={value}
                     />
                   )}
-                  name="fullName"
+                  name="name"
                 />
               </View>
-              {errors.fullName && <ErrorMessage text="Name is required" />}
+              {errors.name && <ErrorMessage text="Name is required" />}
             </View>
             <View className="mt-6">
               <View>
@@ -177,7 +170,7 @@ const SignUp = () => {
             onPress={handleSubmit(onSubmit)}
             className="bg-main_green p-3 rounded-xl"
           >
-            {loading ? (
+            {isPending ? (
               <ActivityIndicator color="white" size={30} />
             ) : (
               <AppText

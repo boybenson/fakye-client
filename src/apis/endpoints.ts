@@ -2,7 +2,7 @@ export const server = "http://localhost:9000";
 
 export const AuthEndpoints = {
   signIn: `${server}/signin`,
-  signUp: "",
+  signUp: `${server}/register`,
   verifyOtp: `${server}/verify-otp`,
 };
 
