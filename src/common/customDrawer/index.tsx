@@ -30,11 +30,11 @@ const CustomDrawerContent = (props: any) => {
           />
           <View className="mt-1">
             <AppText
-              text={user?.fullName ?? ""}
+              text={user?.Name ?? ""}
               style="text-xl font-normal text-gray-800"
             />
             <AppText
-              text={user?.phone ?? ""}
+              text={user?.Phone ?? ""}
               style="text-sm font-normal text-gray-600"
             />
           </View>

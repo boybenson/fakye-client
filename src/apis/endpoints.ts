@@ -8,7 +8,7 @@ export const AuthEndpoints = {
 
 export const PostEndpoints = {
   getPosts: `${server}/get-posts`,
-  createPosts: "",
+  createPost: `${server}/create-post`,
 };
 
 export const endpoints = {

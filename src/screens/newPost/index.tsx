@@ -20,13 +20,14 @@ import * as ImagePicker from "expo-image-picker";
 import { DropdownMenu, MenuOption } from "../../common/Core/DropDown";
 import { useForm, Controller } from "react-hook-form";
 import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { CreatePostContent, PostType } from "../../__types__/graphql";
 import useCreatePost from "../../hooks/use-create-post";
 import useAuthStore from "../../zustand/auth-store";
 import { Toast } from "../../common/Core/Alerts";
 import { firebasesStorage } from "../../firebase";
-import { tabScreens } from "../../constants";
 import * as Location from "expo-location";
+import { CreatePostPayload, PostType } from "../../apis/types";
+import { tabScreens } from "../../constants";
+import { useQueryClient } from "@tanstack/react-query";
 
 const NewPost = () => {
   const user = useAuthStore((state) => state.user);
@@ -43,9 +44,11 @@ const NewPost = () => {
   const inputRef = useRef<TextInput>(null);
 
   const { control, handleSubmit, setValue, watch, trigger } =
-    useForm<CreatePostContent>();
+    useForm<CreatePostPayload>();
 
-  const { createPost, loading } = useCreatePost();
+  const queryClient = useQueryClient();
+
+  const { createPost, isPending, isSuccess } = useCreatePost();
 
   const postType = watch("type");
   const name = watch("name");
@@ -130,7 +133,7 @@ const NewPost = () => {
     getCurrentLocation();
   }, []);
 
-  const onSubmit = async (data?: CreatePostContent) => {
+  const onSubmit = async (data?: CreatePostPayload) => {
     if (notCompleted) {
       return Toast({
         type: "error",
@@ -142,32 +145,23 @@ const NewPost = () => {
     if (uploadedUrls.length === 0) return;
 
     createPost({
-      variables: {
-        content: {
-          name: data?.name ?? "",
-          description: data?.description ?? "",
-          type: data?.type,
-          userId: user?.id,
-          media: uploadedUrls ?? [],
-          showLocation: isChecked,
-          latitude: String(location?.coords?.latitude) ?? "",
-          longitude: String(location?.coords?.longitude) ?? "",
-        },
-      },
-      onCompleted: (res) => {
-        if (res) {
-          Toast({
-            type: "sucess",
-            message: "Post created successfully",
-          });
-          return navigation.navigate(tabScreens.HomeTab);
-        }
-      },
-      onError: (err) => {
-        return Toast({ type: "error", message: err?.message });
-      },
+      name: data?.name ?? "",
+      description: data?.description ?? "",
+      type: data?.type ?? "",
+      userId: user?.ID ?? 0,
+      media: uploadedUrls ?? [],
+      showLocation: isChecked,
+      latitude: String(location?.coords?.latitude) ?? "",
+      longitude: String(location?.coords?.longitude) ?? "",
     });
   };
+
+  if (isSuccess) {
+    queryClient.invalidateQueries({
+      queryKey: ["posts"],
+    });
+    return navigation.navigate(tabScreens.HomeTab);
+  }
 
   return (
     <View className="flex-1 bg-white">
@@ -189,15 +183,15 @@ const NewPost = () => {
                 <AppText text="Cancel" />
               </TouchableOpacity>
               <TouchableOpacity
-                disabled={notCompleted || loading || uploading}
+                disabled={notCompleted || isPending || uploading}
                 onPress={handleSubmit(onSubmit)}
                 className={`${
-                  notCompleted || loading || uploading
+                  notCompleted || isPending || uploading
                     ? "bg-main_gray/60"
-                    : "bg-main_primary-300"
+                    : "bg-main_green"
                 } rounded-3xl p-1.5 px-6`}
               >
-                {loading || uploading ? (
+                {isPending || uploading ? (
                   <ActivityIndicator size={25} />
                 ) : (
                   <AppText text="Post" style="text-white font-semibold" />
