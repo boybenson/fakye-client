@@ -6,13 +6,13 @@ import useFetchPosts from "../../hooks/use-fetch-posts";
 import Posts from "../Posts";
 
 const Home = () => {
-  const { posts, loading } = useFetchPosts();
+  const { posts, isLoading } = useFetchPosts();
   return (
     <SafeAreaView className="bg-white flex-1">
       <AppHeader />
 
       <View className="w-[96%] mx-auto flex-1">
-        {loading && (
+        {isLoading && (
           <View>
             <AppText
               text="Loading Posts..."
@@ -21,7 +21,7 @@ const Home = () => {
           </View>
         )}
 
-        {!loading && posts?.length < 1 && (
+        {!isLoading && posts?.length < 1 && (
           <View>
             <AppText
               text="No posts available"
@@ -30,7 +30,7 @@ const Home = () => {
           </View>
         )}
 
-        {!loading && posts?.length > 0 && <Posts posts={posts} />}
+        {!isLoading && posts?.length > 0 && <Posts posts={posts} />}
       </View>
     </SafeAreaView>
   );

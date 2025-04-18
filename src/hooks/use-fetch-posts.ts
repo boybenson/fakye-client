@@ -1,17 +1,20 @@
-import { useQuery } from "@apollo/client";
-import { GET_POSTS } from "../graphql/queries";
-import { GetPostsQuery, GetPostsQueryVariables } from "../__types__/graphql";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { endpoints } from "../apis/endpoints";
 
 const useFetchPosts = () => {
-  const { data, ...rest } = useQuery<GetPostsQuery, GetPostsQueryVariables>(
-    GET_POSTS,
-    {
-      fetchPolicy: "network-only",
-    }
-  );
+  const { data, ...rest } = useQuery({
+    queryKey: ["posts"],
+    queryFn: async () => {
+      const res = await axios.get(endpoints.getPosts, {
+        headers: { "Content-Type": "application/json" },
+      });
+      return res?.data;
+    },
+  });
 
   return {
-    posts: data?.getPosts ?? [],
+    posts: data ?? [],
     ...rest,
   };
 };
