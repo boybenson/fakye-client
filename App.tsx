@@ -4,8 +4,6 @@ import "./gesture-handler";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import RootStack from "./src/navigation/root";
 import { BottomSheetModalProvider } from "@gorhom/bottom-sheet";
-import { ApolloProvider } from "@apollo/client";
-import client from "./src/graphql";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { Toasts } from "@backpackapp-io/react-native-toast";
 import { StyleSheet } from "react-native";
@@ -16,16 +14,14 @@ const queryClient = new QueryClient();
 const App = () => {
   return (
     <SafeAreaProvider>
-      <ApolloProvider client={client}>
-        <GestureHandlerRootView style={styles.container}>
+      <GestureHandlerRootView style={styles.container}>
+        <QueryClientProvider client={queryClient}>
           <BottomSheetModalProvider>
-            <QueryClientProvider client={queryClient}>
-              <RootStack />
-            </QueryClientProvider>
+            <RootStack />
           </BottomSheetModalProvider>
-          <Toasts />
-        </GestureHandlerRootView>
-      </ApolloProvider>
+        </QueryClientProvider>
+        <Toasts />
+      </GestureHandlerRootView>
     </SafeAreaProvider>
   );
 };

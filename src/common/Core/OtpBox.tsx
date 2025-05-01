@@ -38,9 +38,7 @@ const OtpBox = ({ onComplete }: any) => {
     try {
       const text = await Clipboard.getStringAsync();
       handleSMSAutoFill(text);
-    } catch (error) {
-      console.log("Paste error:", error);
-    }
+    } catch (error) {}
   };
 
   const handleKeyPress = (e: any, index: number) => {

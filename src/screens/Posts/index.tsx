@@ -22,6 +22,7 @@ const Posts = ({ posts }: Iprops) => {
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }
       data={posts ?? []}
+      keyExtractor={(item) => item.id}
       renderItem={({ item }) => {
         return <PostCard item={item} />;
       }}

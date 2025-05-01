@@ -1,42 +1,22 @@
 import { SafeAreaView, TextInput, TouchableOpacity, View } from "react-native";
 import React, { useEffect, useState, useCallback } from "react";
 import AppText from "../../common/Core/AppText";
-import { SearchPostsFilter } from "../../__types__/graphql";
-import { useForm, Controller } from "react-hook-form";
-import useSearchPosts from "../../hooks/use-search-posts";
 import Posts from "../Posts";
 import { debounce } from "lodash";
 
 const Search = () => {
   const [filteredResults, setFilteredResults] = useState<any>([]);
-  const { control, watch, setValue } = useForm<SearchPostsFilter>();
-  const { searchPosts, loading } = useSearchPosts();
-
-  const typedFilter = watch("query");
 
   const debouncedSearch = useCallback(
     debounce((query) => {
       if (!query) return setFilteredResults([]);
-      searchPosts({
-        variables: { filter: { query } },
-        onCompleted: (res) => setFilteredResults(res?.searchPosts),
-        onError: (err) => console.error("Search Error:", err),
-      });
     }, 300),
     []
   );
 
-  useEffect(() => {
-    if (!typedFilter) {
-      if (filteredResults.length > 0) setFilteredResults([]);
-      return;
-    }
-    debouncedSearch(typedFilter);
-  }, [typedFilter]);
-
   return (
     <SafeAreaView className="bg-white flex-1">
-      <View className="w-[96%] mx-auto">
+      {/* <View className="w-[96%] mx-auto">
         <AppText text="Search" style="text-2xl font-semibold mt-4" />
         <View className="flex flex-row items-center space-x-2 mt-3">
           <View className="flex-1">
@@ -81,7 +61,7 @@ const Search = () => {
 
           <Posts posts={filteredResults ?? []} />
         </View>
-      </View>
+      </View> */}
     </SafeAreaView>
   );
 };

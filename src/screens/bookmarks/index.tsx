@@ -12,11 +12,9 @@ import Posts from "../Posts";
 const Bookmarks = () => {
   const navigation = useNavigation();
   const user = useAuthStore((state) => state.user);
-  const { posts, loading } = useFetchBookmarks({
-    filter: { userId: user?.id },
-  });
+  const { posts, isLoading } = useFetchBookmarks({ userId: Number(user?.ID) });
 
-  const filteredPosts = posts?.map((post) => post?.post);
+  const filteredPosts = posts;
 
   return (
     <SafeAreaView className="bg-white h-full">
@@ -30,7 +28,7 @@ const Bookmarks = () => {
               </TouchableOpacity>
             }
           />
-          {loading && (
+          {isLoading && (
             <>
               <View>
                 <AppText
@@ -41,7 +39,7 @@ const Bookmarks = () => {
             </>
           )}
 
-          {!loading && posts.length < 1 && <NoBookmarks />}
+          {!isLoading && posts.length < 1 && <NoBookmarks />}
 
           <View>
             <Posts posts={filteredPosts ?? []} />

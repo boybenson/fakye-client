@@ -1,11 +1,4 @@
-import {
-  Alert,
-  Image,
-  Share,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Alert, Image, Share, TouchableOpacity, View } from "react-native";
 import React, { useRef, useState } from "react";
 import AppText from "../../../common/Core/AppText";
 import { DropdownMenu, MenuOption } from "../../../common/Core/DropDown";
@@ -22,10 +15,10 @@ import { calculateTimeAgo } from "../../../helpers";
 import ImagesGrid from "./ImagesGrid";
 import BookmarkBtn from "./BookMarkBtn";
 import { useNavigation } from "@react-navigation/native";
-import { Post, PostType } from "../../../__types__/graphql";
 import Sheet from "../../../common/sheet";
 import Comments from "./Comments";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { Post, PostType } from "../../../apis/types";
 
 type Iprops = {
   item?: Post;
@@ -73,7 +66,7 @@ const PostCard = ({ item }: Iprops) => {
               source={require("../../../../assets/images/pp.jpeg")}
               style={{ width: 32, height: 32, borderRadius: 100 }}
             />
-            <AppText text={item?.user?.fullName ?? ""} style="text-sm ml-2" />
+            <AppText text={item?.user?.Name ?? ""} style="text-sm ml-2" />
           </View>
           <DropdownMenu
             visible={visible}
@@ -155,16 +148,14 @@ const PostCard = ({ item }: Iprops) => {
               >
                 <ChatBubbleLeftIcon color={"#6B7280"} />
                 <View>
-                  <AppText text={item?.commentCount ?? ""} />
+                  <AppText text={item?.commentsCount} />
                 </View>
               </TouchableOpacity>
               <TouchableOpacity className="flex-row items-center space-x-1">
                 <HeartIcon color={"#6B7280"} />
-                <View>
-                  <AppText text="100" />
-                </View>
+                <View>{/* <AppText text="100" /> */}</View>
               </TouchableOpacity>
-              <BookmarkBtn postId={item?.id ?? ""} />
+              <BookmarkBtn postId={Number(item?.id) ?? ""} />
             </View>
             <View>
               <TouchableOpacity

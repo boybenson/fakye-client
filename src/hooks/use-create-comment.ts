@@ -1,22 +1,28 @@
-import { useMutation } from "@apollo/client";
-import { CREATE_COMMENT } from "../graphql/mutations";
-import {
-  CreateCommentMutation,
-  CreateCommentMutationVariables,
-} from "../__types__/graphql";
-import { GET_COMMENTS, GET_POSTS } from "../graphql/queries";
+import { useMutation } from "@tanstack/react-query";
+import { handleApiError } from "../helpers";
+import { endpoints } from "../apis/endpoints";
+import axios from "axios";
 
 const useCreateComment = () => {
-  const [createComment, { loading, ...rest }] = useMutation<
-    CreateCommentMutation,
-    CreateCommentMutationVariables
-  >(CREATE_COMMENT, {
-    fetchPolicy: "network-only",
-    refetchQueries: [GET_COMMENTS, GET_POSTS],
+  const { mutate, ...rest } = useMutation({
+    mutationFn: async (body: {
+      userId: number;
+      postId: number;
+      message: string;
+    }) => {
+      const res = await axios.post(endpoints.createComment, body, {
+        headers: { "Content-Type": "application/json" },
+      });
+
+      return res?.data;
+    },
+    onError: (err: any) => {
+      handleApiError(err, "Failed to load data");
+      return null;
+    },
   });
   return {
-    createComment,
-    loading,
+    createComment: mutate,
     ...rest,
   };
 };

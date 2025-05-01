@@ -1,4 +1,4 @@
-import { TouchableOpacity } from "react-native";
+import { TouchableOpacity, ActivityIndicator } from "react-native";
 import React, { useState, useEffect } from "react";
 import { BookmarkIcon } from "react-native-heroicons/outline";
 import { BookmarkIcon as BookmarkIconSolid } from "react-native-heroicons/solid";
@@ -6,64 +6,114 @@ import useAuthStore from "../../../zustand/auth-store";
 import useToggleBookmark from "../../../hooks/use-toggle-bookmark";
 import useIsPostBookmarked from "../../../hooks/use-ispost-bookmarked";
 import { Toast } from "../../../common/Core/Alerts";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Iprops = {
-  postId: string;
+  postId: number;
 };
 
 const BookmarkBtn = ({ postId }: Iprops) => {
   const user = useAuthStore((state) => state.user);
-  const { toggleBookmark, loading } = useToggleBookmark();
+  const queryClient = useQueryClient();
+  const { toggleBookmark, isPending, isSuccess, isError, error } =
+    useToggleBookmark();
+
   const { isPostBookmarked } = useIsPostBookmarked({
-    filter: {
-      postId,
-      userId: user?.id,
-    },
+    postId: Number(postId),
+    userId: Number(user?.ID),
   });
 
-  const [isBookmarked, setIsBookmarked] = useState(isPostBookmarked);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+  const [actionStatus, setActionStatus] = useState<boolean | null>(null);
 
   useEffect(() => {
-    setIsBookmarked(isPostBookmarked);
+    if (isPostBookmarked !== undefined) {
+      setIsBookmarked(isPostBookmarked);
+    }
   }, [isPostBookmarked]);
 
+  useEffect(() => {
+    if (isSuccess && actionStatus !== null) {
+      queryClient.invalidateQueries({
+        queryKey: [
+          "isPostBookmarked",
+          {
+            postId: Number(postId),
+            userId: Number(user?.ID),
+          },
+        ],
+      });
+
+      queryClient.invalidateQueries({
+        queryKey: ["bookmarks"],
+      });
+
+      Toast({
+        type: "sucess",
+        message: actionStatus ? "Bookmarked!" : "Removed from bookmarks!",
+      });
+      setActionStatus(null);
+    }
+
+    if (isError) {
+      setIsBookmarked(!actionStatus);
+      Toast({
+        type: "error",
+        message: error?.message || "Failed to update bookmark",
+      });
+    }
+  }, [isSuccess, isError, actionStatus, postId, user?.ID, queryClient, error]);
+
   const handleClick = () => {
+    if (!user) {
+      Toast({
+        type: "error",
+        message: "You need to login to bookmark posts",
+      });
+      return;
+    }
+
     const newStatus = !isBookmarked;
+
     setIsBookmarked(newStatus);
+    setActionStatus(newStatus);
+
+    queryClient.setQueryData(
+      [
+        "isPostBookmarked",
+        { postId: Number(postId), userId: Number(user?.ID) },
+      ],
+      newStatus
+    );
 
     toggleBookmark({
-      variables: {
-        content: {
-          postId,
-          userId: user?.id ?? "",
-        },
-      },
-      onCompleted: () => {
-        Toast({
-          type: "sucess",
-          message: newStatus ? "Bookmarked!" : "Removed from bookmarks!",
-        });
-      },
-      onError: (err) => {
-        setIsBookmarked(!newStatus);
-        Toast({ type: "error", message: err?.message });
-      },
+      postId: Number(postId),
+      userId: Number(user?.ID),
     });
+  };
+
+  const renderIcon = () => {
+    if (isPending) {
+      return <ActivityIndicator size="small" color="#08A045" />;
+    }
+    return isBookmarked ? (
+      <BookmarkIconSolid color="#08A045" />
+    ) : (
+      <BookmarkIcon color="#6B7280" />
+    );
   };
 
   return (
     <TouchableOpacity
-      disabled={loading}
+      disabled={isPending}
       onPress={handleClick}
       className="flex-row items-center space-x-1 ml-3"
+      accessibilityLabel={isBookmarked ? "Remove bookmark" : "Add bookmark"}
+      accessibilityRole="button"
     >
-      {isBookmarked ? (
-        <BookmarkIconSolid color={"#08A045"} />
-      ) : (
-        <BookmarkIcon color={"#6B7280"} />
-      )}
+      {renderIcon()}
     </TouchableOpacity>
   );
 };
 
-export default BookmarkBtn;
+export default React.memo(BookmarkBtn);

@@ -1,17 +1,21 @@
-import { useQuery } from "@apollo/client";
-import { GET_IS_POST_BOOKMARKED } from "../graphql/queries";
-import { QueryIsPostBookmarkedArgs } from "../__types__/graphql";
+import { useQuery } from "@tanstack/react-query";
+import axios from "axios";
+import { endpoints } from "../apis/endpoints";
 
-const useIsPostBookmarked = (variables?: QueryIsPostBookmarkedArgs) => {
-  const { data, ...rest } = useQuery<any, QueryIsPostBookmarkedArgs>(
-    GET_IS_POST_BOOKMARKED,
-    {
-      fetchPolicy: "network-only",
-      variables,
-    }
-  );
+const useIsPostBookmarked = (body: { userId: number; postId: number }) => {
+  const { data, ...rest } = useQuery({
+    queryKey: ["isPostBookmarked"],
+    queryFn: async () => {
+      const res = await axios.get(endpoints.isPostBookmarked, {
+        params: body,
+        headers: { "Content-Type": "application/json" },
+      });
+      return res?.data;
+    },
+  });
+
   return {
-    isPostBookmarked: data?.isPostBookmarked,
+    isPostBookmarked: data?.isBookmarked,
     ...rest,
   };
 };

@@ -6,19 +6,14 @@ import AppText from "../../../common/Core/AppText";
 import useFetchComments from "../../../hooks/use-fetch-comments";
 import { calculateTimeAgo } from "../../../helpers";
 import NewCommentForm from "./NewCommentForm";
-import { Post } from "../../../__types__/graphql";
 
 type Iprops = {
   bottomSheetRef: React.RefObject<BottomSheetModal>;
-  post: Post | null;
+  post: any | null;
 };
 
 const Comments = ({ bottomSheetRef, post }: Iprops) => {
-  const { comments, loading } = useFetchComments({
-    filter: {
-      postId: post?.id,
-    },
-  });
+  const { comments, isPending } = useFetchComments(post?.id);
   const handleCloseComments = () => {
     bottomSheetRef?.current?.dismiss();
   };
@@ -43,7 +38,7 @@ const Comments = ({ bottomSheetRef, post }: Iprops) => {
         </View>
         <View className="flex-1">
           <BottomSheetScrollView>
-            {loading && (
+            {isPending && (
               <>
                 <View className="mt-4">
                   <ActivityIndicator />
@@ -54,7 +49,7 @@ const Comments = ({ bottomSheetRef, post }: Iprops) => {
                 </View>
               </>
             )}
-            {!loading && comments?.length < 1 && (
+            {!isPending && comments?.length < 1 && (
               <>
                 <View>
                   <AppText
@@ -64,7 +59,7 @@ const Comments = ({ bottomSheetRef, post }: Iprops) => {
                 </View>
               </>
             )}
-            {!loading &&
+            {!isPending &&
               comments?.length > 0 &&
               comments?.map((comment, idx) => {
                 return (
@@ -75,7 +70,7 @@ const Comments = ({ bottomSheetRef, post }: Iprops) => {
                         <View className="bg-[#F5F6F9] p-4 rounded-lg flex-1">
                           <View className="pb-3 flex flex-row items-center justify-between">
                             <Text className="font-semibold text-sm">
-                              {comment?.user?.fullName}
+                              {comment?.user?.Name}
                             </Text>
                             <Text className="font-normal text-xs text-[#171C1B]">
                               {calculateTimeAgo(comment?.createdAt)}

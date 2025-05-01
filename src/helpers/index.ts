@@ -1,6 +1,32 @@
 import moment from "moment";
 
-export const calculateTimeAgo = (date: Date) => {
+/**
+ * Handles API errors consistently across the application
+ * @param {Error} err - The error object
+ * @param {string} [customMessage] - Optional custom message to display
+ * @returns {void}
+ * @throws {Error} - Re-throws the error after handling
+ */
+export function handleApiError(err: any, customMessage?: any) {
+  let errorMessage = customMessage || "Something went wrong";
+
+  if (err?.response) {
+    console.log("Error response:", err.response.data);
+    console.log("Error status:", err.response.status);
+    errorMessage = err.response.data.message || errorMessage;
+  } else if (err?.request) {
+    console.log("No response received:", err.request);
+    errorMessage = "No response from server. Please try again.";
+  } else {
+    console.log("Error message:", err.message);
+  }
+
+  alert(`Error: ${errorMessage}`);
+
+  throw err;
+}
+
+export const calculateTimeAgo = (date: Date | undefined | null) => {
   const now = moment();
   const past = moment(date);
   const diffInSeconds = now.diff(past, "seconds");

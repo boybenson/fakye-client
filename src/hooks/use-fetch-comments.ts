@@ -1,20 +1,23 @@
-import { useQuery } from "@apollo/client";
-import { GET_COMMENTS } from "../graphql/queries";
-import {
-  GetCommentsQuery,
-  GetCommentsQueryVariables,
-} from "../__types__/graphql";
+import { useQuery } from "@tanstack/react-query";
+import { endpoints } from "../apis/endpoints";
+import axios from "axios";
 
-const useFetchComments = (variables?: GetCommentsQueryVariables) => {
-  const { data, ...rest } = useQuery<
-    GetCommentsQuery,
-    GetCommentsQueryVariables
-  >(GET_COMMENTS, {
-    fetchPolicy: "network-only",
-    variables,
+const useFetchComments = (postId: number) => {
+  const { data, ...rest } = useQuery({
+    queryKey: ["comments"],
+    queryFn: async () => {
+      const res = await axios.get(endpoints.getComments, {
+        params: {
+          postId,
+        },
+        headers: { "Content-Type": "application/json" },
+      });
+      return res?.data;
+    },
   });
+
   return {
-    comments: data?.getComments ?? [],
+    comments: data ?? [],
     ...rest,
   };
 };

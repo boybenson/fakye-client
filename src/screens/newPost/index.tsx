@@ -111,7 +111,6 @@ const NewPost = () => {
       );
       return urls;
     } catch (error) {
-      console.error("Error uploading images:", error);
       Toast({ type: "error", message: "Image upload failed" });
       return [];
     } finally {

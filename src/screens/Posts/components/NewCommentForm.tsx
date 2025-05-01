@@ -7,44 +7,41 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import React from "react";
-import { CreateCommentContent, Post } from "../../../__types__/graphql";
+import React, { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import useCreateComment from "../../../hooks/use-create-comment";
 import useAuthStore from "../../../zustand/auth-store";
-import { Toast } from "../../../common/Core/Alerts";
 import { BottomSheetModal } from "@gorhom/bottom-sheet";
+import { useQueryClient } from "@tanstack/react-query";
 
 type Iprops = {
-  post: Post | null;
+  post: any | null;
   bottomSheetRef: React.RefObject<BottomSheetModal>;
 };
 
-const NewCommentForm = ({ post, bottomSheetRef }: Iprops) => {
-  const { control, handleSubmit, reset } = useForm<CreateCommentContent>();
+const NewCommentForm = ({ post }: Iprops) => {
+  const { control, handleSubmit, reset } = useForm<any>();
   const user = useAuthStore((state) => state.user);
-  const { createComment, loading } = useCreateComment();
+  const queryClient = useQueryClient();
+  const { createComment, isPending, isSuccess } = useCreateComment();
 
-  const onSubmit = (data: CreateCommentContent) => {
+  const onSubmit = (data: any) => {
     createComment({
-      variables: {
-        content: {
-          message: data?.message,
-          userId: user?.id ?? "",
-          postId: post?.id,
-        },
-      },
-      onCompleted: (res) => {
-        if (res.createComment) {
-          return reset();
-        }
-        return Toast({ type: "error", message: "Error Creating comments" });
-      },
-      onError: (err) => {
-        return Toast({ type: "error", message: err?.message });
-      },
+      message: data?.message ?? "",
+      postId: Number(post?.id),
+      userId: Number(user?.ID),
     });
   };
+
+  useEffect(() => {
+    if (isSuccess) {
+      queryClient.invalidateQueries({
+        queryKey: ["comments"],
+      });
+
+      reset();
+    }
+  }, [isSuccess, reset]);
 
   return (
     <KeyboardAvoidingView
@@ -73,7 +70,7 @@ const NewCommentForm = ({ post, bottomSheetRef }: Iprops) => {
             onPress={handleSubmit(onSubmit)}
             className="bg-main_green rounded-full p-0.5 flex items-center justify-center"
           >
-            {loading ? (
+            {isPending ? (
               <ActivityIndicator color="white" size={30} />
             ) : (
               <Image

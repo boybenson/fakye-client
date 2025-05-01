@@ -71,7 +71,7 @@ const BottomTabs = () => {
       })}
     >
       <Tab.Screen name={tabScreens.HomeTab} component={Home} />
-      <Tab.Screen name={tabScreens.SearchTab} component={Search} />
+      {/* <Tab.Screen name={tabScreens.SearchTab} component={Search} /> */}
       <Tab.Screen name={tabScreens.PostItemTab} component={NewPost} />
       <Tab.Screen name={tabScreens.FoundationTab} component={HomeScreen} />
       <Tab.Screen name={tabScreens.ChatsTab} component={Chats} />
